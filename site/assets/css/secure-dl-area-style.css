@@ -1,0 +1,11 @@
+label{
+	display: block; /* Make sure the label is on a single line */
+	margin: 3px; /* Create some distance away from the input fields */
+}
+
+input{
+	padding: 3px; /* Give the text some more space */
+	border: 1px solid gray; /* Add a border around the input fields */
+	margin: 3px; /* Create some distance away from the labels */
+}
+
