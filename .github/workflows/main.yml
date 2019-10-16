@@ -18,6 +18,9 @@ jobs:
 
       - name: Where
         run: echo "$(pwd)"
+      
+      - name: What
+        run: find "$(pwd)"
 
  #     - name: Publish to AWS S3
  #       uses: opspresso/action-s3-sync@master
