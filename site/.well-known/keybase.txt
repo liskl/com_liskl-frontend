@@ -1,0 +1,56 @@
+==================================================================
+https://keybase.io/liskl
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of https://www.liskl.com
+  * I am liskl (https://keybase.io/liskl) on keybase.
+  * I have a public key ASDb9aWPnaeyFusXtiw107hup5jwoAPlmVJh4M0xWiErYQo
+
+To do so, I am signing this object:
+
+{
+  "body": {
+    "key": {
+      "eldest_kid": "0120859c5a50f9e5fadcd3b336d202beffe75a4309df254bb5cf0cb792668ec6b9320a",
+      "host": "keybase.io",
+      "kid": "0120dbf5a58f9da7b216eb17b62c35d3b86ea798f0a003e5995261e0cd315a212b610a",
+      "uid": "c2d2746e4ba4118669de7d584ee48319",
+      "username": "liskl"
+    },
+    "merkle_root": {
+      "ctime": 1573169681,
+      "hash": "b76c9c0dabc30c22c633c182549bf63cf2bb22bb16a990f8d2f23961fe258707f2d737f1ce463d1c8b6f2b1126d2e9ae02314771b1fc6b5c53d9ea7ae7beecaf",
+      "hash_meta": "a86b5993461fdb7b01b8b0aafb921b65d4e102e6ccf3d13b22029510ee89c8b4",
+      "seqno": 8916050
+    },
+    "service": {
+      "entropy": "FCuM998yqPfR3SeKeMTvxNlg",
+      "hostname": "www.liskl.com",
+      "protocol": "https:"
+    },
+    "type": "web_service_binding",
+    "version": 2
+  },
+  "client": {
+    "name": "keybase.io go client",
+    "version": "4.7.2"
+  },
+  "ctime": 1573169714,
+  "expire_in": 504576000,
+  "prev": "f5a33c1d40b838758d108f6a72d0ac30789586ef23f545eb27a191ab59c1cda8",
+  "seqno": 21,
+  "tag": "signature"
+}
+
+which yields the signature:
+
+hKRib2R5hqhkZXRhY2hlZMOpaGFzaF90eXBlCqNrZXnEIwEg2/Wlj52nshbrF7YsNdO4bqeY8KAD5ZlSYeDNMVohK2EKp3BheWxvYWTESpcCFcQg9aM8HUC4OHWNEI9qctCsMHiVhu8j9UXrJ6GRq1nBzajEILKTTkVKKlA2JmTxK1BgCS6Mdewq3kcmbCKO7i5+DEA4AgHCo3NpZ8RA2cbLmbbmFBs5Zq8pCBTgdk4oDqWSM4F28fBezjivOBlQg7GPbOgP6KoSzVlcNkSwKI+UEFGUxJC68nZ4SMJYCKhzaWdfdHlwZSCkaGFzaIKkdHlwZQildmFsdWXEII5gYUG0FTF73kHONzA3+qMLmBzv8YMwym3AaZaqh1/To3RhZ80CAqd2ZXJzaW9uAQ==
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/liskl
+
+==================================================================
