@@ -8,7 +8,7 @@ on:
 jobs:
   build:
 
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
@@ -24,9 +24,8 @@ jobs:
 
       - name: Deploy to S3
         if: github.ref == 'refs/heads/master'
-        uses: actions/aws/cli@master
-        with:
-          args: s3 sync ./site/ s3://www.liskl.com/ --acl='public-read' --delete
+        run: |
+          aws s3 sync ./site/ s3://www.liskl.com/ --acl='public-read' --delete
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -34,9 +33,8 @@ jobs:
 
       - name: Invalidate Cloudfront CDN
         if: github.ref == 'refs/heads/master'
-        uses: actions/aws/cli@master
-        with:
-          args: cloudfront create-invalidation --distribution-id=$CLOUDFRONT_DISTRIBUTION_ID --paths '/*'
+        run: |
+          aws cloudfront create-invalidation --distribution-id=$CLOUDFRONT_DISTRIBUTION_ID --paths '/*'
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
