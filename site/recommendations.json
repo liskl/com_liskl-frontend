@@ -1,0 +1,145 @@
+{
+    "recommendations": [
+        {
+            "firstName": "Steve",
+            "lastName": "Ortiz",
+            "company": "Travel Syndication Technology",
+            "relation":"Manager",
+            "linkedinUrl": "https://www.linkedin.com/in/steve-ortiz-63bb018/",
+            "quote": "I was a pleasure to have worked with Loren. Loren was brought in to help recover and stabilize a fragile system(environment, deployment,etc). He had the knowledge to correct and simplify the system, while working closely with many different teams concurrently. He demonstrates energy towards both the end customer and his direct colleagues. He has exceptional analytical and troubleshooting skills. Loren would be a great asset to any company."
+        },{
+            "firstName": "Jon",
+            "lastName": "Billow",
+            "company": "Peak Hosting",
+            "relation":"President",
+            "linkedinUrl": "https://www.linkedin.com/in/jonbillow/",
+            "quote": "When I started at Peak, I was very quiet for the first 30 days. I wanted to get a sense of who was who, where the thought leaders were, where were \"those people\" that are in every organization - once you find them you can get <b>ANYTHING</b> done, but until then, good luck. As I got to know my staff and started to feel the flow of the business, several names immediately started to become familiar. Regardless of the time pressure, the complexity of the project, or the level<br />of customer difficulty, one person that I kept hearing about was Loren Lisk. Peak's workforce is completely virtual, and he was several level removed from me re: direct report, yet I became familiar with his work ethic, attention to<br />detail, and solid engineering approach by his reputation. We had one major customer that regularly threw their weight around with extreme engineering challenges, and Loren was always the guy you could count on to find a solution, on<br />time, keeping the customer happy. The company has gone through an extremely tumultuous year, and when our large customer breached their contract and took 80% of the company's revenue with them, character is truly tested. I can't fault<br />those who left to find stability, but I am forever humbled by those like Loren - he clearly saw the risk, saw the opportunity elsewhere, yet stayed with us. Loren is one of those guys who will do anything asked, with a positive<br />attitude, and will execute with quality. Peak exited the managed hosting business at the end of 2016, and is moving into a different line of business entirely. That said, I would gladly rehire him if I had a position. I encourage anyone<br />who has a engineering position that Loren is qualified for to hire him immediately. You can see from my profile that I do not hand out recommendations easily; Loren is certainly someone that I am happy to fully, publicly endorse.<br /><br />I would strongly recommend Loren to a potential employer and am available for any additional feedback.<br />"
+        },{
+            "firstName": "Sergei",
+            "lastName": "Bleikhman",
+            "company": "Peak Hosting",
+            "relation":"Manager",
+            "linkedinUrl": "https://www.linkedin.com/in/chatkal/",
+            "quote": "I have known Loren since he joined Peak Hosting in 2014. As a Manager of Technical Operations at the time I worked with him extensively and have nothing but appreciation for his technical skills and organizational abilities. Hired as a Systems Administrator, Loren played a key role in various company-wide initiatives, like development and continuous improvement of the unattended installation system and training of customer service admins on support of the major client - from syllabus creation to conducting training sessions and post-training testing. Soon promoted to an Operations Engineer, Loren continued to excel in complex technical solutions, such as Xen multi-system deployment and migration, and design/build of an OpenStack environment. He has also served as a customer liaison, being directly involved in account management and growth development of a key customer.<br /><br />I would strongly recommend Loren to a potential employer and am available for any additional feedback.<br />"
+        },{
+            "firstName": "Justin",
+            "lastName": "Harris",
+            "company": "Peak Hosting",
+            "relation":"Peer",            
+            "linkedinUrl": "https://www.linkedin.com/in/justin-harris-b372095/",
+            "quote": "Loren is one of the strongest Linux engineers I have ever had the pleasure to work with. His dedication and passion helped drive all of our projects together to completion, even under very tight time lines. Loren is always willing to help, teach, and learn, making him a rock star in any team. I would highly recommend!"
+        },{
+            "firstName": "David",
+            "lastName": "Sully",
+            "company": "Peak Hosting",
+            "relation":"Peer",
+            "linkedinUrl": "https://www.linkedin.com/in/david-adam-sully-04448233/",
+            "quote": "Loren was an excellent addition to our engineering team. He was very knowledgeable, results driven, and detail oriented. He was always willing to go the extra mile during times of increased operational tempo and was willing to dive into complex issues to help his team mates succeed. It was a pleasure to work with Loren and I'd love to work with him again in the future."
+        },{
+            "firstName": "Syn",
+            "lastName": "Calvo",
+            "company": "Peak Hosting",
+            "relation":"Coworker",
+            "linkedinUrl": "https://www.linkedin.com/in/syncalvo",
+            "quote": "For almost two and a half years, I had the honor of working with Loren first as a Linux System Administrator and then through the creation of a new team of Operations Engineers. Loren's knowledge and expertise were invaluable to me at Peak Hosting and he is one of the best team members I could have asked for. He is always willing to help and would seek every opportunity to trade knowledge and learn or teach something new. He is never afraid to receive honest feedback and turn advice into profit or work with his team toward a mutual solution for customer inquiries.<br /><br />Loren's involvement in and understanding of Linux Administration, Problem Management and Change Management brought me to him many times for advice. He is an asset to any company looking for a rock star on their team."
+        },{
+            "firstName": "Richard",
+            "lastName": "Staats",
+            "company": "Peak Hosting",
+            "relation":"Coworker",
+            "linkedinUrl": "https://www.linkedin.com/in/rstaats",
+            "quote": "Loren is undoubtedly one of the most talented Linux Engineers I have ever worked with. It has been my pleasure working with Loren for the past year and learning all kinds of awesome new things from him. As a true Linux professional Loren is always eager to dissect complex problems and where possible automate solutions to make work faster, more accurate, and repeatable. With an insatiable passion for learning and diving deep into new tech, Loren is truly a master of his craft."
+        },{
+            "firstName": "John",
+            "lastName": "Biggi",
+            "company": "Peak Hosting",
+            "relation":"CEO",
+            "linkedinUrl": "https://www.linkedin.com/in/johnbiggi",
+            "quote": "Loren has been a consistent technical lead within Peak's Operations team. Loren has been integral in creating and delivering the content of various internal training sessions. Loren has also been at the forefront of creating processes and procedures which enabled our teams to be more efficient and effective in their delivery of services for Peak's customers. Loren's technical skills are consistently sought after by his peers as well as his cross functional teammates. I would recommend Loren for any position that requires both technical prowess as well as excellent interpersonal skills."
+        },{
+            "firstName": "Fereydoun",
+            "lastName": "Tavangary",
+            "company": "Peak Hosting",
+            "relation":"Direct Manager",
+            "linkedinUrl": "https://www.linkedin.com/in/fereydount",
+            "quote": "It has been my pleasure to supervise Loren at Peak Hosting. I found him to be a hard worker, he always kept calm under pressure and I could count on him to be a natural leader. He always went above and beyond his job duties and was willing to step up and take on new challenges to help his team be successful. Loren has excellent communication skills, strong technical abilities, is organized, multi-tasks efficiently and can work well independently."
+        },{
+            "firstName": "Ryan",
+            "lastName": "King",
+            "company": "Peak Hosting",
+            "relation":"Coworker",
+            "linkedinUrl": "https://www.linkedin.com/in/kingrc",
+            "quote": "Loren was one of the brightest points of my time with Peak Hosting. His interest and professional input into many areas in a high-volume, high-pressure environment were constantly helpful in making sure that everything was running smoothly. Loren's experience and guidance were invaluable in helping to formulate most of our policies and procedures in dealing with large and complex customers, and his leadership was essential in guiding our team to meet ever-changing and increasingly difficult goals. Loren proved himself time and time again to be a valuable asset to any project he was asked to handle."
+        },{
+            "firstName": "Pavel",
+            "lastName": "May",
+            "company": "Peak Hosting",
+            "relation":"Coworker",
+            "linkedinUrl": "https://www.linkedin.com/in/pavel-may-39792abb",
+            "quote": "Loren is a detail-oriented, untiring, ceaselessly efficiency-minded, automation-loving Linux administrator. No task seems too big, but also no task beneath him. Loren always seeks out feedback on which to base his improvement. An utter pleasure to work with this man.<br />"
+        },{
+            "firstName": "Deon",
+            "lastName": "Rodden",
+            "company": "Peak Hosting",
+            "relation":"Coworker",
+            "linkedinUrl": "https://www.linkedin.com/in/deonrodden",
+            "quote": "You won't find a more dedicated geek than Loren. I mean Geek an an awesome, amazing way. He's passionate about technology, always trying new things and learning new things, always going above and beyond the call of duty. He's a dedicated, hard working Linux guru who doesn't do this just because it's a job, but because it's his passion, and it shows. If you always want to know about the latest and greatest technology, chances are Loren's testing it on his home lab. Highly recommended."
+        },{
+            "firstName": "William",
+            "lastName": "Bakke",
+            "company": "IBM",
+            "relation":"Coworker",
+            "linkedinUrl": "https://www.linkedin.com/in/williambakke",
+            "quote": "Loren Lisk is extremely dedicated, able to work great in a team or by himself on task, thrives under pressure. Always keeping his skills updated and remaining top of his game, given a new project he will learn everything he needs to know to not only complete the task but improve on it."
+        },{
+            "firstName": "Michael",
+            "lastName": "Gardner",
+            "company": "Peer 1 Hosting",
+            "relation": "Manager",
+            "linkedinUrl": "https://www.linkedin.com/in/ummike",
+            "quote": "Loren is one of the best Linux administrators I know. He is extremely knowledgeable in Linux, Networking and server administration. When I had the pleasure of being his leader, her stood out as the go to guy shortly after joining the company. I was impressed with how hard he worked to learn our business and master it. I constantly received great compliments and kudos our customers about him. I had customers that he impressed who only wanted to work with him. If you are looking for a hard working, knowledgeable administrator who is great with his team and customers, Loren is the person."
+        },{
+            "firstName": "Brian",
+            "lastName": "Beaudoin",
+            "company": "Peer 1 Hosting",
+            "relation":"Coworker",
+            "linkedinUrl": "https://www.linkedin.com/in/bbeaudoin",
+            "quote": "Loren has always been a pleasure to work with. As an outgoing, communicative coworker, he naturally gets along with others lending his strengths to others in teams. His drive to continuously learn and improve has deepened his breadth of knowledge and experience in cloud technologies, immutable deployments, and orchestration for scalability and management. I wholeheartedly give him my recommendation."
+        },{
+            "firstName": "Clarence",
+            "lastName": "Winfield",
+            "company": "Chattahoochee Technical College",
+            "relation":"Coworker",
+            "linkedinUrl": "https://www.linkedin.com/in/clarence-winfield-375b5b14",
+            "quote": "Loren is very technical and knowledgeable of his position and many other aspects and areas of the Technical Support division of Chattahoochee Technical College. Not only does he performs his primary duties efficiently and promptly, his performance is the same or better when assigned to or volunteers to help with other projects. He is always trying/willing to learn more and is constantly getting training for and works hard at earning various IT certifications. Working with Loren has also increased my knowledge in some area's of IT."
+        },{
+            "firstName": "Kay",
+            "lastName": "Kamara",
+            "company": "Chattahoochee Technical College",
+            "relation":"Teacher",
+            "linkedinUrl": "https://www.linkedin.com/in/kamara-kay-mism-a-3457b7",
+            "quote": "Loren was an outstanding student who has a keen understanding of all technical aspects for the field of study. He has a genuine IT knowledge more than any other students that I have taught. It is Loren's firm understanding of the technology field that has made him one for the strongest candidate in his field. I highly recommend Loren for his endeavors. Loren is a highly motivated, dedicated, and a knowledgeable student who will succeed and any task. I have no doubt that he will be highly regarded as a valuable team member. I am confident that he will take a full advantage of the opportunities that you offer."
+        },{
+            "firstName": "Victoria",
+            "lastName": "Gardner",
+            "company": "Chattahoochee Technical College",
+            "relation":"Manager",
+            "linkedinUrl": "https://www.linkedin.com/in/victoria-gardner-19b35140",
+            "quote": "As a Federal Work Study, Loren put in more hours than required under the program, often keeping the pace of many of the full time staff. His diversity in the technology field, gained as much under personal experience as education, made him a great asset during his time in our support department. Problem solving is among his many strengths. Not afraid of a challenge, Loren took his personal time to \"tweak\" existing applications, making them more efficient, faster, saving time and resources. He is supportive of other people's ideas and will offer to help to bring about the best results."
+        },{
+            "firstName": "Enrique",
+            "lastName": "Velazquez",
+            "company": "Peer1 Hosting",
+            "relation": "Executive Staff",
+            "linkedinUrl": "https://www.linkedin.com/in/enrique-velazquez-b-567-a49",
+            "quote": "To Whom It May Concern,<br /><br />I have had the distinct pleasure of working with Loren Lisk during our shared time at Peer 1 Hosting. In that time he had consistently gone above and beyond the call of duty in a number of ways. The most impactful of which would be developing a new ticketing dashboard that not only impacted the Atlanta office, but because the tool used worldwide across our entire office.<br /><br />His dedication and excellent customer service skills are top notch, and he would be an asset to any company who'd want to hire him."
+        },{
+            "firstName": "Jeff",
+            "lastName": "Bragdon",
+            "company": "Peer1 Hosting",
+            "relation": "Direct Supervisor",
+            "linkedinUrl": "https://www.linkedin.com/in/jeff-bragdon-3-636-863",
+            "quote": "To Whom It May Concern,<br /><br />Over the course of my employment with Peer1, I had the great pleasure of filling the role of a supervisor responsible for Loren Lisk. He proved himself over and over again an excellent Linux engineer with deep understanding of the root operating systems and applications that make business class hosting successful.<br /><br />I came to rely on him for his ability to quickly resolve issues, his quality customer service, and his overall job performance.<br /><br />Often, he was talked about in management meetings as one of our anchors for which we built shifts around.<br /><br />Recently I left Peer1 for another opportunity which is only a Windows based environment, or I would be after Loren myself.<br /><br />You could not ask for a more hard working, intelligent, experienced Linux engineer.<br /><br />"
+        }
+    ]
+}
