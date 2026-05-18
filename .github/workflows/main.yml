@@ -7,7 +7,8 @@ on:
 
 permissions:
   id-token: write
-  contents: read    # This is required for actions/checkout
+  contents: write   # required to push the auto-bumped git tag
+  packages: write   # required to push to ghcr.io
 
 jobs:
   build:
@@ -16,22 +17,17 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v4
         with:
-          fetch-depth: 1
+          # full history so the tag action can compute the next semver
+          fetch-depth: 0
 
       - name: configure aws credentials
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: arn:aws:iam::339843249992:role/github-website-upload
           role-session-name: github-liskl-com-liskl-frontend
           aws-region: "us-east-1"
-
-      - name: Where
-        run: echo "$(pwd)"
-
-      - name: What
-        run: find "$(pwd)"
 
       - name: Deploy to S3
         if: github.ref == 'refs/heads/master'
@@ -44,3 +40,35 @@ jobs:
           aws cloudfront create-invalidation --distribution-id=$CLOUDFRONT_DISTRIBUTION_ID --paths '/*'
         env:
           CLOUDFRONT_DISTRIBUTION_ID: E3VU1O4N3QRZPH
+
+      - name: Compute next semver and tag the commit
+        id: tag
+        if: github.ref == 'refs/heads/master'
+        uses: mathieudutour/github-tag-action@v6.2
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          default_bump: patch
+          tag_prefix: v
+
+      - name: Log in to GHCR
+        if: github.ref == 'refs/heads/master'
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Docker Buildx
+        if: github.ref == 'refs/heads/master'
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and push image to GHCR
+        if: github.ref == 'refs/heads/master'
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: |
+            ghcr.io/liskl/com_liskl_frontend:${{ steps.tag.outputs.new_tag }}
+            ghcr.io/liskl/com_liskl_frontend:latest
