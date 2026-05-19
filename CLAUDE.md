@@ -33,6 +33,23 @@ site/                      # Deployable static content
 └── *.html               # Other pages (email, server, powerwall, error)
 ```
 
+Granular breakdown:
+
+- `src/` - Template source files (edit these)
+- `site/` - Generated output (served by nginx, deployed to S3 and to the homelab k3s pod)
+- `site/assets/css/` - Stylesheets (Bootstrap 4, custom CSS)
+- `site/assets/js/` - JavaScript (jQuery, Bootstrap, custom)
+- `site/assets/img/` - Images
+- `site/assets/pdf/` - PDFs (resumes, certificates)
+- `site/resume/` - Resume-related static files
+
+#### CSS Files
+
+- `main.css` - Primary site styles
+- `recommend.css` - Recommendations section styling
+- `print.css` - Print media styles
+- `bootstrap.min.css` - Bootstrap 4.5.3
+
 ### Deployment Pipeline
 
 GitHub Actions workflow (`.github/workflows/main.yml`):
@@ -57,9 +74,12 @@ This regenerates all HTML files in `site/` from the template sources.
 docker-compose up --build
 
 # Access at http://localhost:8080
+
+# Or build the image only (without running it)
+docker build -t frontend .
 ```
 
-The Dockerfile uses nginx:alpine to serve static content from `site/`.
+The Dockerfile uses nginx:alpine to serve static content from `site/`. The same Dockerfile is what CI builds and pushes to `ghcr.io/liskl/com_liskl_frontend` for the homelab deployment.
 
 ### Manual deployment
 The CI/CD pipeline auto-deploys on push to master. Manual deployment is not typically needed, but the commands are:
@@ -80,7 +100,8 @@ aws cloudfront create-invalidation --distribution-id=E3VU1O4N3QRZPH --paths '/*'
 1. **Editing page content**: Modify the appropriate `.tmpl` file in `src/`
 2. **Editing header/footer**: Modify `src/header.tmpl` or `src/footer.tmpl` (affects all pages)
 3. **Rebuild**: Run `src/generate_site.sh` to regenerate HTML
-4. **Deploy**: Push to master branch (automatic via GitHub Actions)
+4. **Test locally** (optional): `docker-compose up` and verify at `http://localhost:8080`
+5. **Deploy**: Push to master branch (automatic via GitHub Actions)
 
 ## Content Structure
 
