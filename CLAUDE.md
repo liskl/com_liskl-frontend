@@ -169,6 +169,6 @@ Example branch naming:
 
 - Always rebuild the site after template changes using `generate_site.sh`
 - The `site/` directory contains generated files - don't edit them directly
-- Asset URLs use absolute paths pointing to `https://www.liskl.com/` in templates
+- Asset URLs and internal page links use root-relative paths (e.g. `/assets/css/main.css`, `/server.html`) so the site renders correctly regardless of hostname (local Docker, homelab routing, S3/CloudFront, etc.). Do NOT hardcode `https://www.liskl.com/...` for in-repo resources. External links (LinkedIn, GitHub, etc.) stay absolute. Exception: `site/.well-known/keybase.txt` — the absolute URL there is a Keybase verification token and must not be changed.
 - Recommendations are loaded from `site/recommendations.json` (not dynamically fetched)
 - When consolidating yearly entries, preserve ALL content - only remove duplicate year headers
