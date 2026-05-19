@@ -36,7 +36,7 @@ site/                      # Deployable static content
 Granular breakdown:
 
 - `src/` - Template source files (edit these)
-- `site/` - Generated output (served by nginx, deployed to S3 and to the homelab k3s pod)
+- `site/` - Generated output (served by nginx, deployed to S3 and to the homelab k8s pod)
 - `site/assets/css/` - Stylesheets (Bootstrap 4, custom CSS)
 - `site/assets/js/` - JavaScript (jQuery, Bootstrap, custom)
 - `site/assets/img/` - Images
