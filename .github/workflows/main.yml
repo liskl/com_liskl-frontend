@@ -6,7 +6,6 @@ on:
     - master
 
 permissions:
-  id-token: write
   contents: write   # required to push the auto-bumped git tag
   packages: write   # required to push to ghcr.io
 
@@ -21,25 +20,6 @@ jobs:
         with:
           # full history so the tag action can compute the next semver
           fetch-depth: 0
-
-      - name: configure aws credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          role-to-assume: arn:aws:iam::339843249992:role/github-website-upload
-          role-session-name: github-liskl-com-liskl-frontend
-          aws-region: "us-east-1"
-
-      - name: Deploy to S3
-        if: github.ref == 'refs/heads/master'
-        run: |
-          aws s3 sync ./site/ s3://www.liskl.com/ --acl='public-read' --delete
-
-      - name: Invalidate Cloudfront CDN
-        if: github.ref == 'refs/heads/master'
-        run: |
-          aws cloudfront create-invalidation --distribution-id=$CLOUDFRONT_DISTRIBUTION_ID --paths '/*'
-        env:
-          CLOUDFRONT_DISTRIBUTION_ID: E3VU1O4N3QRZPH
 
       - name: Compute next semver and tag the commit
         id: tag
