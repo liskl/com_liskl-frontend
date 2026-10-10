@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a personal portfolio website (liskl.com) for Loren Lisk. It's a static HTML site built using a simple template system and deployed to AWS S3 with CloudFront CDN.
+This is a personal portfolio website (liskl.com) for Loren Lisk. It's a static HTML site built using a simple template system, packaged as an nginx container image and served from a self-hosted Kubernetes homelab cluster. It moved off AWS S3 and CloudFront in 2026; nothing deploys to AWS any more.
 
 ## Architecture
 
@@ -36,7 +36,7 @@ site/                      # Deployable static content
 Granular breakdown:
 
 - `src/` - Template source files (edit these)
-- `site/` - Generated output (served by nginx, deployed to S3 and to the homelab k8s pod)
+- `site/` - Generated output (baked into the nginx image that the homelab cluster serves)
 - `site/assets/css/` - Stylesheets (Bootstrap 4, custom CSS)
 - `site/assets/js/` - JavaScript (jQuery, Bootstrap, custom)
 - `site/assets/img/` - Images
@@ -50,13 +50,16 @@ Granular breakdown:
 - `print.css` - Print media styles
 - `bootstrap.min.css` - Bootstrap 4.5.3
 
-### Deployment Pipeline
+### Release and Deployment Pipeline
 
-GitHub Actions workflow (`.github/workflows/main.yml`):
-1. Triggers on push to `master` branch
-2. Authenticates with AWS using OIDC (role: `github-website-upload`)
-3. Syncs `site/` directory to S3 bucket `www.liskl.com`
-4. Invalidates CloudFront distribution (ID: `E3VU1O4N3QRZPH`)
+GitHub Actions workflow (`.github/workflows/main.yml`), on every push to `master` (in practice, every merged pull request):
+1. Computes the next version from the commits since the last tag with `mathieudutour/github-tag-action` (conventional commits) and pushes the `vX.Y.Z` tag:
+   - `feat:` bumps the minor (`v0.2.2` -> `v0.3.0`)
+   - `fix:`, `chore:`, `docs:` and anything else bump the patch (`default_bump: patch`)
+   - a `BREAKING CHANGE` bumps the major
+2. Builds the `Dockerfile` and pushes `ghcr.io/liskl/com_liskl_frontend:vX.Y.Z` and `:latest`. The image name uses underscores; this repo's name uses a hyphen.
+
+The cluster side lives in the private `liskl/homelab` repo under `deploy/kustomize/com_liskl_frontend/`, whose `CLAUDE.md` is the runbook. Flux image automation picks up the new `vX.Y.Z` tag (a semver policy on `^vX.Y.Z$`), commits the bump to that repo and rolls the Deployment that serves `liskl.com` and `www.liskl.com`. From merge to live takes up to about 2 hours.
 
 ## Development Commands
 
@@ -81,11 +84,11 @@ docker build -t frontend .
 
 The Dockerfile uses nginx:alpine to serve static content from `site/`. The same Dockerfile is what CI builds and pushes to `ghcr.io/liskl/com_liskl_frontend` for the homelab deployment.
 
-### Manual deployment
-The CI/CD pipeline auto-deploys on push to master. Manual deployment is not typically needed, but the commands are:
+### Rolling out sooner
+There is no manual deploy: a merge to `master` is the release. To roll it out before the automation intervals come round, from a machine with access to the homelab cluster:
 ```bash
-aws s3 sync ./site/ s3://www.liskl.com/ --acl='public-read' --delete
-aws cloudfront create-invalidation --distribution-id=E3VU1O4N3QRZPH --paths '/*'
+flux -n default reconcile image update image-updater
+flux -n flux-system reconcile kustomization com-liskl-frontend
 ```
 
 ## Key Files
@@ -101,7 +104,7 @@ aws cloudfront create-invalidation --distribution-id=E3VU1O4N3QRZPH --paths '/*'
 2. **Editing header/footer**: Modify `src/header.tmpl` or `src/footer.tmpl` (affects all pages)
 3. **Rebuild**: Run `src/generate_site.sh` to regenerate HTML
 4. **Test locally** (optional): `docker-compose up` and verify at `http://localhost:8080`
-5. **Deploy**: Push to master branch (automatic via GitHub Actions)
+5. **Deploy**: Open a pull request against `master`. It needs one approving review (an admin can merge their own PR without it), and merging releases and deploys it
 
 ## Content Structure
 
@@ -179,7 +182,7 @@ For significant updates:
 1. Create feature branch: `git checkout -b feat/descriptive-name`
 2. Make changes and rebuild site after each template edit
 3. Commit frequently with clear messages
-4. When complete, merge to master (triggers auto-deployment)
+4. When complete, open a pull request against `master`; merging triggers the release and the homelab rollout
 
 Example branch naming:
 - `feat/update-recent-activities` - Adding new content
@@ -190,6 +193,6 @@ Example branch naming:
 
 - Always rebuild the site after template changes using `generate_site.sh`
 - The `site/` directory contains generated files - don't edit them directly
-- Asset URLs and internal page links use root-relative paths (e.g. `/assets/css/main.css`, `/server.html`) so the site renders correctly regardless of hostname (local Docker, homelab routing, S3/CloudFront, etc.). Do NOT hardcode `https://www.liskl.com/...` for in-repo resources. External links (LinkedIn, GitHub, etc.) stay absolute. Exception: `site/.well-known/keybase.txt` — the absolute URL there is a Keybase verification token and must not be changed.
+- Asset URLs and internal page links use root-relative paths (e.g. `/assets/css/main.css`, `/server.html`) so the site renders correctly regardless of hostname (local Docker, the homelab gateway, any hostname). Do NOT hardcode `https://www.liskl.com/...` for in-repo resources. External links (LinkedIn, GitHub, etc.) stay absolute. Exception: `site/.well-known/keybase.txt` — the absolute URL there is a Keybase verification token and must not be changed.
 - Recommendations are loaded from `site/recommendations.json` (not dynamically fetched)
 - When consolidating yearly entries, preserve ALL content - only remove duplicate year headers
