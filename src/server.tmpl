@@ -141,12 +141,13 @@
 
       <h2 id='software'>The software</h2>
       <p>Four homes, three platforms. VMware vSphere came first, on <em>prometheus</em>, and the lab ran it from 5.5 through the 6.x releases. OpenStack joined it across the Dell servers while the lab was still in Georgia.
-        Kubernetes took over in 2015, starting around 0.9, before 1.0 shipped that July, and still runs the lab today. The cluster has since moved onto the mini rack, and the big rack now only keeps storage online.</p>
+        Kubernetes arrived in 2015, starting around 0.9 (1.0 shipped that July), running on top of OpenStack. It still runs the lab today, now on bare metal:
+        the cluster moved off OpenStack onto the mini rack, and the big rack only keeps storage online.</p>
 
       <h2 id='today'>What it runs on today</h2>
       <ul class='sub'>
         <li class='sub'><strong>Edge</strong> - OPNsense on a Deciso DEC2700, with two internet uplinks (fiber and satellite)</li>
-        <li class='sub'><strong>Compute</strong> - a three-node k3s cluster (vulcan, worker-02, worker-03) on Minisforum BD795i SE Mini-ITX boards: Ryzen 9 7945HX (16 cores, 32 threads), 128&nbsp;GB of DDR5 (the spec sheet says 96) and a 2&nbsp;TB NVMe each</li>
+        <li class='sub'><strong>Compute</strong> - a three-node k3s cluster on bare metal (vulcan, worker-02, worker-03), on Minisforum BD795i SE Mini-ITX boards: Ryzen 9 7945HX (16 cores, 32 threads), 128&nbsp;GB of DDR5 (the spec sheet says 96) and a 2&nbsp;TB NVMe each</li>
         <li class='sub'><strong>Out-of-band</strong> - a JetKVM per node, mounted in the 10-inch rack above them</li>
         <li class='sub'><strong>Network</strong> - an all-fiber 10&nbsp;Gb SFP+ fabric; each node bonds two Intel 82599 ports into 20&nbsp;Gb. Ubiquiti EdgeSwitches and UniFi cover the rest of the house</li>
         <li class='sub'><strong>Storage</strong> - gringotts, a Dell PowerEdge R730xd running TrueNAS SCALE, serving iSCSI and NFS to the cluster</li>
