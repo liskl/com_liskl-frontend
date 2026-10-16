@@ -30,11 +30,11 @@
       <p>Fifteen years of a homelab, told in photos: four homes since 2011, and two matching 30U racks, collected together around Smyrna and Marietta, Georgia, in a Home Depot rental truck. One still runs the lab; the other now holds the batteries for the <a href='/powerwall.html'>powerwall</a>. Every photo is in the <a href='/gallery/liskl-networks-datacenter.html'>datacenter gallery</a>, and the current setup is <a href='#today'>at the bottom</a>.</p>
 
       <h2 id='georgia'>Georgia <small>2011 &ndash; 2014</small></h2>
-      <p>The lab started in Georgia: one enclosed rack, a KVM drawer and <em>prometheus</em>, the VMware vSphere box, later replaced by OpenStack across a set of Dell servers. By 2014 it was also running USB bitcoin miners, just before the move to Florida.</p>
+      <p>The lab started in Georgia: one enclosed rack, a KVM drawer and <em>prometheus</em>, a Dell PowerEdge running VMware vSphere, later replaced by OpenStack across a fleet of second-hand Dells. By 2014 it was also running USB bitcoin miners, just before the move to Florida.</p>
         <div class='row'>
           <div class='col-sm-6 col-lg-4'><figure>
-            <a class='img' href='/assets/img/homelab/2011-02-13-001.webp'><img src='/assets/img/homelab/2011-02-13-001.webp' width='1026' height='1280' loading='lazy' alt='Feb 2011. Where it starts: an enclosed rack, a KVM drawer, and prometheus, which ran VMware vSphere, caught here at a Debian 6 login prompt.' /></a>
-            <figcaption>Feb 2011. Where it starts: an enclosed rack, a KVM drawer, and prometheus, which ran VMware vSphere, caught here at a Debian 6 login prompt.</figcaption>
+            <a class='img' href='/assets/img/homelab/2011-02-13-001.webp'><img src='/assets/img/homelab/2011-02-13-001.webp' width='1026' height='1280' loading='lazy' alt='Feb 2011. Where it starts: an enclosed rack, a KVM drawer, and prometheus, a Dell PowerEdge that ran VMware vSphere, caught here at a Debian 6 login prompt.' /></a>
+            <figcaption>Feb 2011. Where it starts: an enclosed rack, a KVM drawer, and prometheus, a Dell PowerEdge that ran VMware vSphere, caught here at a Debian 6 login prompt.</figcaption>
           </figure></div>
           <div class='col-sm-6 col-lg-4'><figure>
             <a class='img' href='/assets/img/homelab/2012-03-20-002.webp'><img src='/assets/img/homelab/2012-03-20-002.webp' width='960' height='1280' loading='lazy' alt='Mar 2012. The rack opened up: switches and 1U servers, with a desktop tower riding along at the bottom.' /></a>
@@ -148,8 +148,8 @@
             <figcaption>Jul 2026. Copper pulled: every node now talks over bonded 10 Gb fiber.</figcaption>
           </figure></div>
           <div class='col-sm-6 col-lg-4'><figure>
-            <a class='img' href='/assets/img/homelab/2026-10-15-139.webp'><img src='/assets/img/homelab/2026-10-15-139.webp' width='962' height='1280' loading='lazy' alt='Oct 2026. The big rack today. Most of it is retired; the 12-bay R730xd at the top still runs TrueNAS for the cluster.' /></a>
-            <figcaption>Oct 2026. The big rack today. Most of it is retired; the 12-bay R730xd at the top still runs TrueNAS for the cluster.</figcaption>
+            <a class='img' href='/assets/img/homelab/2026-10-15-139.webp'><img src='/assets/img/homelab/2026-10-15-139.webp' width='962' height='1280' loading='lazy' alt='Oct 2026. The big rack today. Most of it is retired; the 12-bay R730xd at the top still runs TrueNAS for the cluster. The two white antennas on top are Nabu Casa Z-Wave and Zigbee radios.' /></a>
+            <figcaption>Oct 2026. The big rack today. Most of it is retired; the 12-bay R730xd at the top still runs TrueNAS for the cluster. The two white antennas on top are Nabu Casa Z-Wave and Zigbee radios.</figcaption>
           </figure></div>
           <div class='col-sm-6 col-lg-4'><figure>
             <a class='img' href='/assets/img/homelab/2026-10-16-140.webp'><img src='/assets/img/homelab/2026-10-16-140.webp' width='961' height='1280' loading='lazy' alt='Oct 2026. The mini rack today: the retired SG-1000 and a 5-port switch, a 2.5 Gb PoE switch with 10 Gb uplinks, a JetKVM per node, and three Ryzen 9 nodes.' /></a>
@@ -158,8 +158,9 @@
         </div>
 
       <h2 id='software'>The software</h2>
-      <p>Four homes, three platforms. VMware vSphere came first, on <em>prometheus</em>, through version 5.5, and OpenStack replaced it across the Dell servers, both before the move to Florida.
-        Kubernetes arrived in 2015, starting around 0.9 (1.0 shipped that July), and ran on top of OpenStack for a time before going bare metal on the Dell PowerEdge servers,
+      <p>Four homes, three platforms. VMware vSphere came first, on <em>prometheus</em>, a Dell PowerEdge, through version 5.5.
+        Still in Georgia, OpenStack replaced it, spread across Dell PowerEdge R510, R610 and R710 servers picked up for $150 to $500 apiece when a former employer shut down a data center.
+        Kubernetes arrived in 2015, starting around 0.9 (1.0 shipped that July), and ran on top of OpenStack until 2016 or 2017, when it went bare metal on the same Dells,
         built by hand following Kelsey Hightower's <a href='https://github.com/kelseyhightower/kubernetes-the-hard-way'>Kubernetes the Hard Way</a>.
         In 2025 it moved to k3s on the mini rack, and the big rack now only keeps storage online.</p>
 
