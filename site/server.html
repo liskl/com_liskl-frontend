@@ -166,12 +166,14 @@
         Still in Georgia, OpenStack replaced it, spread across Dell PowerEdge R510, R610 and R710 servers picked up for $150 to $500 apiece when a former employer shut down a data center.
         Kubernetes arrived in 2015, starting around 0.9 (1.0 shipped that July), and ran on top of OpenStack until 2016 or 2017, when it went bare metal on the same Dells,
         built by hand following Kelsey Hightower's <a href='https://github.com/kelseyhightower/kubernetes-the-hard-way'>Kubernetes the Hard Way</a>.
-        In 2025 it moved to k3s on the NUC minilab, and in 2026 onto the Minisforum nodes in the 12U mini rack; the big rack now only keeps storage online.</p>
+        In 2025 it moved to k3s on the NUC minilab, and in 2026 onto the Minisforum nodes in the 12U mini rack; the big rack now only keeps storage online.
+        The first of those nodes, vulcan, started out as a standalone AV1 encoder, running a video-processing script that dates back to April 2025.
+        In May 2026 that script grew into the Video Ingestion System, a Kubernetes-native distributed encoder that now runs on the cluster.</p>
 
       <h2 id='today'>What it runs on today</h2>
       <ul class='sub'>
         <li class='sub'><strong>Edge</strong> - OPNsense on a Deciso DEC2700, with two internet uplinks: fiber and satellite. The firewall and the fiber both arrived in May 2025, five days apart</li>
-        <li class='sub'><strong>Compute</strong> - a three-node k3s cluster on bare metal (vulcan, worker-02, worker-03), on Minisforum BD795i SE Mini-ITX boards: Ryzen 9 7945HX (16 cores, 32 threads), 128&nbsp;GB of DDR5 (the spec sheet says 96) and a 2&nbsp;TB NVMe each. vulcan's board came first, in August 2025; the other two arrived at the end of April 2026</li>
+        <li class='sub'><strong>Compute</strong> - a three-node k3s cluster on bare metal (vulcan, worker-02, worker-03), on Minisforum BD795i SE Mini-ITX boards: Ryzen 9 7945HX (16 cores, 32 threads), 128&nbsp;GB of DDR5 (the spec sheet says 96) and a 2&nbsp;TB NVMe each. vulcan's board came first, in August 2025, and spent its first months as a dedicated video encoder; the other two arrived at the end of April 2026</li>
         <li class='sub'><strong>Out-of-band</strong> - a JetKVM per node, mounted in the 10-inch rack above them</li>
         <li class='sub'><strong>Network</strong> - an all-fiber 10&nbsp;Gb SFP+ fabric; each node bonds two Intel 82599 ports into 20&nbsp;Gb. Ubiquiti EdgeSwitches and UniFi cover the rest of the house</li>
         <li class='sub'><strong>Storage</strong> - gringotts, a Dell PowerEdge R730xd running TrueNAS SCALE, serving iSCSI and NFS to the cluster</li>
