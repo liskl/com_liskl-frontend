@@ -9,10 +9,10 @@
 
       <div class='homelab'>
       <h2>Home-labbing</h2>
-      <p>Fifteen years of a homelab, told in photos: four homes since 2011, and two matching 30U racks along the way. One still runs the lab; the other now holds the batteries for the <a href='/powerwall.html'>powerwall</a>. Every photo is in the <a href='/gallery/liskl-networks-datacenter.html'>datacenter gallery</a>, and the current setup is <a href='#today'>at the bottom</a>.</p>
+      <p>Fifteen years of a homelab, told in photos: four homes since 2011, and two matching 30U racks, bought as a pair. One still runs the lab; the other now holds the batteries for the <a href='/powerwall.html'>powerwall</a>. Every photo is in the <a href='/gallery/liskl-networks-datacenter.html'>datacenter gallery</a>, and the current setup is <a href='#today'>at the bottom</a>.</p>
 
       <h2 id='georgia'>Georgia <small>2011 &ndash; 2014</small></h2>
-      <p>The lab started in Georgia: one enclosed rack, a KVM drawer and <em>prometheus</em>, the VMware vSphere box, joined by OpenStack across a set of Dell servers. By 2014 it was also running USB bitcoin miners, just before the move to Florida.</p>
+      <p>The lab started in Georgia: one enclosed rack, a KVM drawer and <em>prometheus</em>, the VMware vSphere box, later replaced by OpenStack across a set of Dell servers. By 2014 it was also running USB bitcoin miners, just before the move to Florida.</p>
         <div class='row'>
           <div class='col-sm-6 col-lg-4'><figure>
             <a class='img' href='/assets/img/homelab/2011-02-13-001.webp'><img src='/assets/img/homelab/2011-02-13-001.webp' width='1026' height='1280' loading='lazy' alt='Feb 2011. Where it starts: an enclosed rack, a KVM drawer, and prometheus, which ran VMware vSphere, caught here at a Debian 6 login prompt.' /></a>
@@ -49,8 +49,8 @@
       <p>Four years in a Daytona Beach rental, and the busiest stretch in the photos: storage builds, an Atom server board, a pegboard network wall and a brief LED phase. It ends with a flight case bought for one job, moving the lab.</p>
         <div class='row'>
           <div class='col-sm-6 col-lg-4'><figure>
-            <a class='img' href='/assets/img/homelab/2015-11-02-029.webp'><img src='/assets/img/homelab/2015-11-02-029.webp' width='960' height='1280' loading='lazy' alt='Nov 2015. Setting up a 30U rack in Daytona Beach, moving boxes still in the room.' /></a>
-            <figcaption>Nov 2015. Setting up a 30U rack in Daytona Beach, moving boxes still in the room.</figcaption>
+            <a class='img' href='/assets/img/homelab/2015-11-02-029.webp'><img src='/assets/img/homelab/2015-11-02-029.webp' width='960' height='1280' loading='lazy' alt='Nov 2015. The rack stripped down to clean and rebuild, moving boxes still in the room.' /></a>
+            <figcaption>Nov 2015. The rack stripped down to clean and rebuild, moving boxes still in the room.</figcaption>
           </figure></div>
           <div class='col-sm-6 col-lg-4'><figure>
             <a class='img' href='/assets/img/homelab/2015-11-07-033.webp'><img src='/assets/img/homelab/2015-11-07-033.webp' width='960' height='1280' loading='lazy' alt='Nov 2015. A Supermicro 2U storage server, mid-build.' /></a>
@@ -95,7 +95,7 @@
         </div>
 
       <h2 id='ormond-house'>Ormond Beach, today <small>Sep 2019 &ndash; now</small></h2>
-      <p>Back in Ormond Beach, this time in a house. The big rack settled into a closet with a wall cabinet above it, and by 2026 the compute lived on three Mini-ITX nodes in a 10-inch rack, all on 10&nbsp;Gb fiber.</p>
+      <p>Back in Ormond Beach, this time in a house. The big rack settled into a closet with a wall cabinet above it, and in 2025 the cluster moved to three Mini-ITX nodes in a 10-inch rack, which now run entirely on 10&nbsp;Gb fiber.</p>
         <div class='row'>
           <div class='col-sm-6 col-lg-4'><figure>
             <a class='img' href='/assets/img/homelab/2019-12-10-090.webp'><img src='/assets/img/homelab/2019-12-10-090.webp' width='960' height='1280' loading='lazy' alt='Dec 2019. Settled into the new house: the rack in its closet.' /></a>
@@ -140,10 +140,10 @@
         </div>
 
       <h2 id='software'>The software</h2>
-      <p>Four homes, three platforms. VMware vSphere came first, on <em>prometheus</em>, and the lab ran it from 5.5 through the 6.x releases. OpenStack joined it across the Dell servers while the lab was still in Georgia.
-        Kubernetes arrived in 2015, starting around 0.9 (1.0 shipped that July), and ran on top of OpenStack for a time before going bare metal,
+      <p>Four homes, three platforms. VMware vSphere came first, on <em>prometheus</em>, through version 5.5, and OpenStack replaced it across the Dell servers, both before the move to Florida.
+        Kubernetes arrived in 2015, starting around 0.9 (1.0 shipped that July), and ran on top of OpenStack for a time before going bare metal on the Dell PowerEdge servers,
         built by hand following Kelsey Hightower's <a href='https://github.com/kelseyhightower/kubernetes-the-hard-way'>Kubernetes the Hard Way</a>.
-        It still runs the lab today, as k3s on the mini rack, and the big rack only keeps storage online.</p>
+        In 2025 it moved to k3s on the mini rack, and the big rack now only keeps storage online.</p>
 
       <h2 id='today'>What it runs on today</h2>
       <ul class='sub'>
