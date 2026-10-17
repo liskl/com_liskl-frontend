@@ -1,0 +1,100 @@
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" /><!-- Bootstrap CSS -->
+  <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous" type="text/css" /> -->
+  <link rel="stylesheet" href="/assets/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous" type="text/css" />
+  <title>Loren Lisk, linux sysadmin, nano game developer and web developer - The Official Web Site</title>
+  <link rel='openid2.provider' href='https://www.google.com/accounts/o8/ud?source=profiles' />
+  <link rel='openid2.local_id' href='http://www.google.com/profiles/loren.lisk09' />
+  <link rel='shortcut icon' href='/favicon.ico' />
+  <link rel='stylesheet' href='/assets/css/main.css' media='screen' type="text/css" />
+  <link rel='stylesheet' href='/assets/css/recommend.css' media='screen' type="text/css" />
+  <link rel='stylesheet' href='/assets/css/print.css' media='print' type="text/css" />
+  <script data-ad-client="ca-pub-3132001591962373" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+</head>
+
+<body>
+  <center>
+    <div class='card'>
+      <div class='header'>
+        <h1><a href='/' style='text-decoration:none;border:0'>Loren Lisk</a><a href='https://www.linkedin.com/in/liskl'><img src='/assets/img/linkedin-logo.png'
+              style='float:right;text-decoration:none;border:0;margin-left:5px;' /></a><a href='https://github.com/liskl'><img src='/assets/img/github-logo.png'
+              style='float:right;text-decoration:none;border:0;margin-left:5px;' /></a><a href='https://x.com/loren_lisk'><img src='/assets/img/x-logo.png'
+              style='float:right;text-decoration:none;border:0;margin-left:5px;' /></a></h1>
+        <p>Reverse-engineering a Bluetooth LED sign</p>
+      </div>
+
+      <h2>CoolLEDUX Controller</h2>
+
+      <h3>The problem</h3>
+      <p>The sign is a CoolLEDUX 16x96 full-color RGB LED matrix that talks Bluetooth Low Energy and normally runs from its stock Android app. I wanted it on my own terms: scriptable, reachable over HTTP, and wired into Home Assistant.</p>
+      <p>An existing community Python SDK was the obvious starting point, but its command codes were wrong for this firmware. So the decompiled stock app became the source of truth, and every command, checksum and frame format was checked against it (and against the real sign wherever possible) before it went into the Go code.</p>
+
+      <h3>What the protocol turned out to be</h3>
+      <ul>
+        <li><strong>Packet framing</strong> - every packet to or from the sign uses the same stream frame: a start byte, a 2-byte big-endian length, the escaped payload, and an end byte. Any <code>0x01</code>, <code>0x02</code> or <code>0x03</code> inside the length or payload is escaped as <code>0x02</code> followed by the byte XOR <code>0x04</code>.</li>
+        <li><strong>CRC32</strong> - program uploads carry a CRC32 (polynomial <code>0x4C11DB7</code>, initial value <code>0xFFFFFFFF</code>, no final XOR), computed bitwise the way the stock app does it.</li>
+        <li><strong>LZSS + stream framing</strong> - program data is LZSS-compressed and split into data chunks, with compression and stream framing that match the stock app.</li>
+        <li><strong>Images</strong> - pictures and GIF frames are encoded as RGB444, column-major.</li>
+        <li><strong>Color presets</strong> - uploading text as a <em>content type 0x05</em> composite program unlocks the 28 auto-color text presets (rainbow, gradient, multi-color) that a plain text upload never reaches.</li>
+      </ul>
+      <p>The frame, from the public <a href='https://github.com/liskl/coolledux-controller/blob/main/docs/specs/protocol-ble.md'>BLE protocol spec</a>:</p>
+      <pre>
+[0x01] [length:2 BE] [escaped(payload)] [0x03]
+  |         |               |              |
+  |         |               |              +-- end byte (never escaped)
+  |         +---------------+----------------- escaped together:
+  |                                            0x01/0x02/0x03 -> [0x02, B ^ 0x04]
+  +-------------------------------------------- start byte (never escaped)
+
+payload = [command:1] [args...]   e.g. 0x04 brightness, 0x05 power</pre>
+
+      <h3>What the Go service does</h3>
+      <ul>
+        <li>BLE scan, connect, MTU negotiation and reconnect</li>
+        <li>A REST API for power, brightness, text, images, GIFs and program upload</li>
+        <li>Countdown, stopwatch and scoreboard overlays</li>
+        <li>Image and GIF sprite placement with <code>letterbox</code>, <code>stretch</code> and <code>cover</code> fit modes</li>
+        <li>Three bitmap fonts: Plan 9 7x13, X11 Misc Fixed Bold 7x14b, and Spleen 8x16</li>
+        <li>MQTT with Home Assistant auto-discovery (a light and a binary_sensor entity)</li>
+        <li>An OpenAPI 3.1 spec with Swagger UI (Apr 2026)</li>
+        <li>Runs in Docker on Linux/BlueZ</li>
+      </ul>
+
+      <h3>An honest gotcha</h3>
+      <p>For a while the scoreboard looked broken: the sign ACKed every scoreboard command and showed nothing. The sign is very polite about ignoring you. The control commands only do something once the scoreboard's composite program (content type <code>0x0B</code>) has been uploaded, so the fix was building that program the way the stock app does, after which it renders on the 16x96 panel.</p>
+      <p>Even then the clock is picky. A new time only latches while the clock is stopped, so changing it means stop, set, start. Scores update immediately either way.</p>
+
+      <h3>Links</h3>
+      <ul>
+        <li><a href='https://github.com/liskl/coolledux-controller'>coolledux-controller on GitHub</a></li>
+        <li><a href='https://github.com/liskl/coolledux-controller/blob/main/docs/specs/protocol-ble.md'>BLE protocol spec</a></li>
+        <li><a href='https://github.com/liskl/coolledux-controller/blob/main/docs/specs/protocol-rest.md'>REST API spec</a></li>
+        <li><a href='https://github.com/liskl/coolledux-controller/blob/main/docs/specs/protocol-mqtt.md'>MQTT / Home Assistant spec</a></li>
+      </ul>
+
+      <div id="FAFOC">
+        <div class="footerquote">
+          <p>"If I had more time, I would have made this shorter."</p><a href="/">Top Of Page</a>
+        </div>
+      </div>
+    </div>
+  </center>
+
+  <br />
+
+  <div id="fade" class="black_overlay"></div><!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous" type="text/javascript"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous" type="text/javascript"></script>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous" type="text/javascript"></script> -->
+  <!--
+      <script src="/assets/js/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+      <script src="/assets/js/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    -->
+  <script src="/assets/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous" type="text/javascript"></script>
+</body>
+
+</html>
