@@ -1,0 +1,73 @@
+  <center>
+    <div class='card'>
+      <div class='header'>
+        <h1><a href='/' style='text-decoration:none;border:0'>Loren Lisk</a><a href='https://www.linkedin.com/in/liskl'><img src='/assets/img/linkedin-logo.png'
+              style='float:right;text-decoration:none;border:0;margin-left:5px;' /></a><a href='https://github.com/liskl'><img src='/assets/img/github-logo.png'
+              style='float:right;text-decoration:none;border:0;margin-left:5px;' /></a><a href='https://x.com/loren_lisk'><img src='/assets/img/x-logo.png'
+              style='float:right;text-decoration:none;border:0;margin-left:5px;' /></a></h1>
+        <p>A Pastebin That Can't Read Your Pastes</p>
+      </div>
+
+      <h2>FlashPaper</h2>
+      <p><strong><a href='https://github.com/liskl/FlashPaper'>FlashPaper</a></strong> is a zero-knowledge, self-destructing encrypted pastebin written in Go. It reimplements <a href='https://github.com/PrivateBin/PrivateBin'>PrivateBin</a> with full API compatibility, so existing PrivateBin clients work against it unchanged.</p>
+
+      <div class='homelab'><div class='row'>
+        <div class='col-sm-6'><figure>
+          <a class='img' href='/assets/img/flashpaper/screenshot.png'><img src='/assets/img/flashpaper/screenshot.png' width='1200' height='700' loading='lazy' alt='The FlashPaper editor in the light theme: an expiration picker, burn-after-reading and discussion checkboxes, an optional password field, a Send button and an empty text area.' /></a>
+          <figcaption>Light theme</figcaption>
+        </figure></div>
+        <div class='col-sm-6'><figure>
+          <a class='img' href='/assets/img/flashpaper/screenshot-dark.png'><img src='/assets/img/flashpaper/screenshot-dark.png' width='1200' height='700' loading='lazy' alt='The same FlashPaper editor in the dark theme, with the theme toggle in the top right now offering Light.' /></a>
+          <figcaption>Dark theme</figcaption>
+        </figure></div>
+      </div></div>
+
+      <h2>How zero-knowledge works</h2>
+      <p>The browser generates a random key and encrypts the paste with AES-256-GCM before anything leaves the page. The server only ever receives and stores ciphertext, plus the paste's settings (expiry, burn after reading, discussion). The key travels in the URL fragment, the part after <code>#</code>, which browsers never send to the server.</p>
+<pre>
+  Browser                                        Server
+  -------                                        ------
+  1. generate a random 256-bit key
+  2. encrypt the paste (AES-256-GCM)
+  3. POST ciphertext + settings  -------------&gt;  store ciphertext
+                                 &lt;-------------  paste ID
+
+  share link:  /?&lt;paste ID&gt;#&lt;key&gt;
+               \__________/ \___/
+               sent to the  stays in the browser,
+               server       never sent
+</pre>
+      <p>The AES key itself is derived from that random key with PBKDF2 (100,000 iterations). A password, if set, is mixed in before that step, so the link alone is not enough to open the paste. And since the server never receives the plaintext, it has no paste content to log.</p>
+
+      <h2>Features</h2>
+      <ul class='sub'>
+        <li class='sub'><strong>Burn after reading</strong> - the paste is deleted once it has been viewed</li>
+        <li class='sub'><strong>Expiration</strong> - from 5 minutes to never</li>
+        <li class='sub'><strong>Password protection</strong> - an extra layer on top of the key in the link</li>
+        <li class='sub'><strong>Discussions</strong> - optional threaded comments on a paste</li>
+        <li class='sub'><strong>Storage backends</strong> - SQLite, PostgreSQL, MySQL or the filesystem</li>
+        <li class='sub'><strong>Single binary</strong> - the frontend assets are embedded in the Go binary</li>
+        <li class='sub'><strong>Dark/light toggle</strong> - remembered between visits</li>
+      </ul>
+
+      <h2>Engineering</h2>
+      <ul class='sub'>
+        <li class='sub'><strong>Releases</strong> - semantic-release cuts versions and the changelog from conventional commits, starting with v1.0.0 in Dec 2025; v1.2.0 in Jan 2026 added OpenTelemetry distributed tracing</li>
+        <li class='sub'><strong>Tests gate the builds</strong> - a Go test job runs first, then Playwright end-to-end tests drive the real UI in CI, and the Docker image builds only when both pass</li>
+        <li class='sub'><strong>Kubernetes</strong> - Kustomize manifests ship in the repo, with a base and an example overlay</li>
+        <li class='sub'><strong>In production</strong> - it runs on the <a href='/server.html'>homelab</a> Kubernetes cluster</li>
+      </ul>
+
+      <h2>Links</h2>
+      <ul class='sub'>
+        <li class='sub'>Source: <a href='https://github.com/liskl/FlashPaper'>github.com/liskl/FlashPaper</a></li>
+        <li class='sub'>FlashPaper is a Go reimplementation of <a href='https://github.com/PrivateBin/PrivateBin'>PrivateBin</a>, which deserves the credit for the design and the API</li>
+      </ul>
+
+      <div id="FAFOC">
+        <div class="footerquote">
+          <p>"If I had more time, I would have made this shorter."</p><a href="/">Top Of Page</a>
+        </div>
+      </div>
+    </div>
+  </center>
