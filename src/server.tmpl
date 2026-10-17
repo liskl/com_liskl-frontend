@@ -98,6 +98,14 @@
           </figure></div>
         </div>
 
+      <h3 id='lab-tooling'>Tools built for the lab</h3>
+      <p>The Daytona years also produced a few small tools for keeping the lab running, all public on GitHub.</p>
+      <ul class='sub'>
+        <li class='sub'><strong>Jan 2016</strong> - <a href='https://github.com/liskl/nas4free-cfgbackup-docker'>nas4free-cfgbackup-docker</a>, a cron job in a container that keeps a NAS4Free box's config in git. Every minute it logs in to the web UI, downloads config.xml the way the backup page does, and commits and pushes only when something changed. The NAS credentials come in as environment variables. The lab's storage <a href='#today'>runs TrueNAS SCALE today</a></li>
+        <li class='sub'><strong>Nov 2016, rebuilt Jul 2025</strong> - <a href='https://github.com/liskl/liskl-base'>liskl-base</a>, minimal base images built FROM scratch out of Alpine minirootfs tarballs and published to Docker Hub as liskl/base. The 2025 rebuild covers Alpine 3.14 through 3.22 on seven architectures, plus riscv64 from 3.20 on, built by a GitHub Actions matrix</li>
+        <li class='sub'><strong>Mar 2017</strong> - <a href='https://github.com/liskl/dockerized-racadm'>dockerized-racadm</a>, Dell's racadm CLI in a CentOS 7 container, so any Docker host can reach a PowerEdge's iDRAC out of band without installing Dell's tools. Built on a self-hosted Drone CI</li>
+      </ul>
+
       <h2 id='ormond-house'>Ormond Beach, today <small>Sep 2019 &ndash; now</small></h2>
       <p>Back in Ormond Beach, this time in a house. The big rack settled into a closet with a wall cabinet above it. A three-NUC minilab came next, bought on eBay in June 2022 and racked in an 8U 10-inch rack; it ran the cluster as k3s in 2025 and has since been handed down to my son. In 2026 the Minisforum refresh moved the cluster to three Mini-ITX nodes in a 12U 10-inch rack, which now run entirely on 10&nbsp;Gb fiber.</p>
         <div class='row'>
