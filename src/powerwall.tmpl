@@ -39,6 +39,13 @@
       </ul>
       <p>The source is on GitHub: <a href='https://github.com/liskl/batrium-udp2http-bridge'>github.com/liskl/batrium-udp2http-bridge</a>.</p>
 
+      <h2 id='before-the-batteries'>Before the batteries: watching the meter</h2>
+      <p>In Feb 2014 I wrote <code>TED5000.sh</code>, a shell script that cron runs every minute. It pulls the latest power reading from a TED 5000 whole-home power monitor gateway and feeds an rrdtool round-robin database: a 60-second step, a GAUGE data source, and a MAX archive of 525,949 one-minute rows (about a year of minutes). It then renders PNG graphs, which the old site served.</p>
+      <pre><code>* * * * * TED5000.sh &lt;gateway-ip&gt; 0</code></pre>
+      <pre><code>rrdtool create &lt;rrd-dir&gt;/ted5000.rrd --start now --step 60 DS:watts:GAUGE:120:0:20 RRA:MAX:0.5:1:525949</code></pre>
+      <p>The script and setup notes are on GitHub: <a href='https://github.com/liskl/t5k-power-monitor'>liskl/t5k-power-monitor</a>.</p>
+      <p>Years later, the same itch became the powerwall.</p>
+
       <div id="FAFOC">
         <div class="footerquote">
           <p>"If I had more time, I would have made this shorter."</p><a href="/">Top Of Page</a>
