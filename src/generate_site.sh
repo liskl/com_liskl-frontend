@@ -17,3 +17,5 @@ cat header.tmpl plex-db-analyzer.tmpl footer.tmpl > ../site/plex-db-analyzer.htm
 cat header.tmpl video-ingestion.tmpl footer.tmpl > ../site/video-ingestion.html
 
 cat header.tmpl coolledux.tmpl footer.tmpl > ../site/coolledux.html
+
+cat header.tmpl storage-inventory.tmpl footer.tmpl > ../site/storage-inventory.html
