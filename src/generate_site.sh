@@ -13,3 +13,5 @@ cat header.tmpl gallery-liskl-networks-datacenter.tmpl footer.tmpl > ../site/gal
 cat header.tmpl flashpaper.tmpl footer.tmpl > ../site/flashpaper.html
 
 cat header.tmpl plex-db-analyzer.tmpl footer.tmpl > ../site/plex-db-analyzer.html
+
+cat header.tmpl video-ingestion.tmpl footer.tmpl > ../site/video-ingestion.html

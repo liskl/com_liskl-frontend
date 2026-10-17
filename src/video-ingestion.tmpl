@@ -1,0 +1,59 @@
+  <center>
+    <div class='card'>
+      <div class='header'>
+        <h1><a href='/' style='text-decoration:none;border:0'>Loren Lisk</a><a href='https://www.linkedin.com/in/liskl'><img src='/assets/img/linkedin-logo.png'
+              style='float:right;text-decoration:none;border:0;margin-left:5px;' /></a><a href='https://github.com/liskl'><img src='/assets/img/github-logo.png'
+              style='float:right;text-decoration:none;border:0;margin-left:5px;' /></a><a href='https://x.com/loren_lisk'><img src='/assets/img/x-logo.png'
+              style='float:right;text-decoration:none;border:0;margin-left:5px;' /></a></h1>
+        <p>From One Script to a Distributed Pipeline</p>
+      </div>
+
+      <h2>Video Ingestion System</h2>
+      <p>A Kubernetes-native, distributed AV1 transcoding pipeline that runs on the <a href='/server.html'>homelab</a> cluster. Upload a video, and it gets probed, optionally tuned, encoded to AV1, named, quality-scored and published to object storage with a download link. It is a personal project in a private repository, so this page describes it in general terms.</p>
+
+      <h2 id='origin'>Origin</h2>
+      <p>It started as a single-host bash script, first written in April 2025, that ran on vulcan, the dedicated AV1 encoder described on the <a href='/server.html#today'>homelab page</a>. That script is no longer the running system, but it still earns its keep as the <em>equivalence baseline</em>: the new system's pinned encoder parameters have to match it.
+        In May 2026 the script grew into a Kubernetes-native distributed transcoding pipeline.</p>
+
+      <h2 id='architecture'>Architecture</h2>
+      <p>Eight Go binaries, split into long-running services and one-shot workers:</p>
+      <ul class='sub'>
+        <li class='sub'><strong>Ingest API and web UI</strong> - two Knative services that scale with demand. Uploads stream into object storage and can be resumed, so a dropped connection does not mean starting over</li>
+        <li class='sub'><strong>Orchestrator</strong> - a Deployment with leader election, so exactly one replica drives the pipeline at a time. It owns the job state machine, admission and queueing, retries and notifications</li>
+        <li class='sub'><strong>Step workers</strong> - five of them (probe, CRF search, encode, naming, VMAF), each run as a Kubernetes Job. AV1 encodes take hours, so a step is a Job the orchestrator creates and watches, not a request it waits on</li>
+        <li class='sub'><strong>Postgres</strong> (CloudNativePG) - the single source of truth. There is no message bus: the orchestrator finds and advances work by polling the database</li>
+        <li class='sub'><strong>Object storage</strong> - S3-compatible, MinIO in the homelab, holding the sources and the finished outputs</li>
+      </ul>
+
+      <h2 id='state-machine'>The job state machine</h2>
+      <p>Every job walks the same path. CRF search is the one optional state; when it is turned off, probing goes straight to encoding.</p>
+      <pre style='overflow-x:auto;'>
+RECEIVED -> QUEUED -> PROBING -> [CRF_SEARCHING] -> ENCODING
+         -> NAMING -> VMAF_SCORING -> FINALIZING -> COMPLETED
+
+  any active state -> FAILED     (retries exhausted)
+  any active state -> CANCELLED  (cancelled by the user)</pre>
+      <p>VMAF scoring is informational. If it cannot produce a score, the job moves on to finalizing without one; a missing score never fails a job.</p>
+
+      <h2 id='toolchain'>Toolchain</h2>
+      <ul class='sub'>
+        <li class='sub'><strong>HandBrakeCLI</strong> - the AV1 encode itself, using the SVT-AV1 encoder</li>
+        <li class='sub'><strong>ab-av1</strong> - VMAF-sampled CRF search with SVT-AV1, to pick a quality setting per source before the full encode</li>
+        <li class='sub'><strong>VMAF</strong> - scores the finished AV1 output against the source</li>
+      </ul>
+
+      <h2 id='practices'>Engineering practices</h2>
+      <ul class='sub'>
+        <li class='sub'><strong>Requirements as Gherkin</strong> - the intended design is written down as Gherkin feature specs before the code that implements it</li>
+        <li class='sub'><strong>Identity</strong> - OIDC in front of the UI and the ingest API, and SPIFFE for the workers, each trading its SPIFFE identity for short-lived object-storage credentials through STS</li>
+        <li class='sub'><strong>Observability</strong> - every binary exports logs, traces and metrics over OpenTelemetry, and worker traces stitch under the orchestrator's span for each step</li>
+        <li class='sub'><strong>Releases</strong> - a version-file bump goes through a pull request; merging it builds the images, and Flux rolls the new version out to the cluster</li>
+      </ul>
+
+      <div id="FAFOC">
+        <div class="footerquote">
+          <p>"If I had more time, I would have made this shorter."</p><a href="/">Top Of Page</a>
+        </div>
+      </div>
+    </div>
+  </center>
