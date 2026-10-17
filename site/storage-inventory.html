@@ -1,0 +1,117 @@
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" /><!-- Bootstrap CSS -->
+  <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous" type="text/css" /> -->
+  <link rel="stylesheet" href="/assets/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous" type="text/css" />
+  <title>Loren Lisk, linux sysadmin, nano game developer and web developer - The Official Web Site</title>
+  <link rel='openid2.provider' href='https://www.google.com/accounts/o8/ud?source=profiles' />
+  <link rel='openid2.local_id' href='http://www.google.com/profiles/loren.lisk09' />
+  <link rel='shortcut icon' href='/favicon.ico' />
+  <link rel='stylesheet' href='/assets/css/main.css' media='screen' type="text/css" />
+  <link rel='stylesheet' href='/assets/css/recommend.css' media='screen' type="text/css" />
+  <link rel='stylesheet' href='/assets/css/print.css' media='print' type="text/css" />
+  <script data-ad-client="ca-pub-3132001591962373" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+</head>
+
+<body>
+  <center>
+    <div class='card'>
+      <div class='header'>
+        <h1><a href='/' style='text-decoration:none;border:0'>Loren Lisk</a><a href='https://www.linkedin.com/in/liskl'><img src='/assets/img/linkedin-logo.png'
+              style='float:right;text-decoration:none;border:0;margin-left:5px;' /></a><a href='https://github.com/liskl'><img src='/assets/img/github-logo.png'
+              style='float:right;text-decoration:none;border:0;margin-left:5px;' /></a><a href='https://x.com/loren_lisk'><img src='/assets/img/x-logo.png'
+              style='float:right;text-decoration:none;border:0;margin-left:5px;' /></a></h1>
+        <p>A Choice for Knowing Where Things Are</p>
+      </div>
+
+      <h2>An NFC inventory for physical storage</h2>
+      <p>A personal project, 2025 to now, and one of the apps running on the <a href='/server.html'>homelab cluster</a>.</p>
+
+      <h3>Why</h3>
+      <p>Two problems, one app. The first is knowing which bin something is in without opening every bin to find out. The second is keeping records that are ready for an insurance claim before anything goes wrong: a serial number, a replacement value and a receipt for each item worth claiming.</p>
+
+      <h3>Tags</h3>
+      <p>Each bin carries a cheap 13.56&nbsp;MHz NFC sticker. Chrome on Android reads the sticker's immutable factory UID through Web NFC, so nothing is ever written to a tag. The UID is the bin's identity.</p>
+      <p>Lesson learned: a handheld barcode and RFID scanner in keyboard-emulation mode is still supported, but as an optional accessory rather than the default. It is a UHF reader, and a UHF reader cannot read 13.56&nbsp;MHz tags. Different band, no amount of configuration fixes that.</p>
+
+      <h3>The core loop</h3>
+      <p>Tap a bin to open it, then for each item either take a photo (the main path, since most things never get a tag) or scan a tag. With no bin open, a scan looks the item up and tells you where it lives, instead of creating an orphan item that belongs nowhere.</p>
+
+      <h3>Background vision</h3>
+      <p>After a photo upload, a background worker asks a self-hosted vision model to describe what is in the frame and writes the description to the item. The upload itself returns almost immediately, so nothing in the scan loop waits on a model. If the model is offline, the job is held and retried later, never dropped.</p>
+
+      <svg viewBox='0 0 560 170' role='img' aria-labelledby='psms-flow-title' style='width:100%;max-width:560px;height:auto;color:#555;margin:10px 0 20px 0'>
+        <title id='psms-flow-title'>Two flows: a phone tap goes to the app, which writes to the database. A photo goes onto a queue, which a worker sends to the vision model.</title>
+        <defs>
+          <marker id='psms-arrow' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'>
+            <path d='M0,0 L10,5 L0,10 z' fill='currentColor' />
+          </marker>
+        </defs>
+        <g fill='none' stroke='currentColor' stroke-width='1.5'>
+          <rect x='10' y='20' width='140' height='44' rx='6' />
+          <rect x='210' y='20' width='140' height='44' rx='6' />
+          <rect x='410' y='20' width='140' height='44' rx='6' />
+          <rect x='10' y='106' width='140' height='44' rx='6' />
+          <rect x='210' y='106' width='140' height='44' rx='6' />
+          <rect x='410' y='106' width='140' height='44' rx='6' />
+          <line x1='150' y1='42' x2='208' y2='42' marker-end='url(#psms-arrow)' />
+          <line x1='350' y1='42' x2='408' y2='42' marker-end='url(#psms-arrow)' />
+          <line x1='150' y1='128' x2='208' y2='128' marker-end='url(#psms-arrow)' />
+          <line x1='350' y1='128' x2='408' y2='128' marker-end='url(#psms-arrow)' />
+        </g>
+        <g fill='currentColor' font-family='sans-serif' font-size='14' text-anchor='middle'>
+          <text x='80' y='47'>Phone tap (NFC)</text>
+          <text x='280' y='47'>App</text>
+          <text x='480' y='47'>Database</text>
+          <text x='80' y='133'>Photo upload</text>
+          <text x='280' y='133'>Queue</text>
+          <text x='480' y='133'>Vision model</text>
+        </g>
+      </svg>
+
+      <h3>History</h3>
+      <p>An audit walks a bin and marks each expected item present or missing, and anything found that wasn't expected as extra. Moves, audits and description changes each append an event, and committing an audit never wipes earlier history. Around that:</p>
+      <ul class='sub'>
+        <li class='sub'><strong>Move all to&hellip;</strong> - empties a bin into another one in a single confirmed action, with a move event for every item</li>
+        <li class='sub'><strong>Provenance</strong> - each item has a timeline of where it has been and what changed</li>
+        <li class='sub'><strong>Collections</strong> - group items by purpose across bins, with a CSV export per collection</li>
+        <li class='sub'><strong>Archiving</strong> - a bin can be archived once it is empty, and drops out of the pickers while keeping its history</li>
+        <li class='sub'><strong>Conflicts</strong> - doing something that doesn't make sense, like moving an item into an archived bin, gets a clean 409 explaining why</li>
+      </ul>
+
+      <h3>Claim gaps</h3>
+      <p>A claim gaps view lists every item missing a serial, a replacement value or a receipt, with each row linking straight to that item's edit page. It turns "am I covered?" into a to-do list.</p>
+
+      <h3>Platform</h3>
+      <ul class='sub'>
+        <li class='sub'>One Go binary, on SQLite or Postgres, with a Bootstrap UI</li>
+        <li class='sub'>SSO at the gateway through an ext_authz OIDC flow, with passkeys from the identity provider</li>
+        <li class='sub'>CSRF protection on every state change, rate limits, audit logging and CSP headers</li>
+        <li class='sub'>Deployed by GitOps to the homelab cluster, with Go and JavaScript test suites gating CI</li>
+      </ul>
+
+      <div id="FAFOC">
+        <div class="footerquote">
+          <p>"If I had more time, I would have made this shorter."</p><a href="/">Top Of Page</a>
+        </div>
+      </div>
+    </div>
+  </center>
+
+  <br />
+
+  <div id="fade" class="black_overlay"></div><!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous" type="text/javascript"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous" type="text/javascript"></script>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous" type="text/javascript"></script> -->
+  <!--
+      <script src="/assets/js/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+      <script src="/assets/js/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    -->
+  <script src="/assets/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous" type="text/javascript"></script>
+</body>
+
+</html>
