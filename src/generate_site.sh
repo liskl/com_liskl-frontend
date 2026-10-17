@@ -19,3 +19,5 @@ cat header.tmpl video-ingestion.tmpl footer.tmpl > ../site/video-ingestion.html
 cat header.tmpl coolledux.tmpl footer.tmpl > ../site/coolledux.html
 
 cat header.tmpl storage-inventory.tmpl footer.tmpl > ../site/storage-inventory.html
+
+cat header.tmpl claude-marketplace.tmpl footer.tmpl > ../site/claude-marketplace.html
