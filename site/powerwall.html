@@ -26,7 +26,36 @@
       </div>
 
       <h2>DIY Powerwall</h2>
-      <p>Under Construction...</p>
+      <p>The batteries live in one of the two matching 30U racks described on the <a href='/server.html'>homelab page</a> (the other still runs the lab). Watching them meant teaching a computer to read the battery management system.</p>
+      <h2 id='telemetry'>Watching the pack</h2>
+      <p>The pack is managed by a Batrium Watchmon 4+ BMS, which broadcasts its telemetry as little-endian binary UDP packets on port 18542.</p>
+      <p><a href='https://github.com/liskl/batrium-udp2http-bridge'>batrium-udp2http-bridge</a> is a Go service that turns those packets into something easier to use. It listens for the broadcasts, picks a decoder from the 16-bit message type in each packet, and keeps the latest decoded message for each type. Each type is served as JSON on a route named after its message ID (for example <code>/0x3E32</code>), plus a per-cell-monitor route, <code>/0x4232/{id}</code>. It also exports Prometheus metrics and ships as a Docker image.</p>
+      <table class='table table-sm'>
+        <thead>
+          <tr>
+            <th>Message ID</th>
+            <th>What it carries</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>0x5732</td><td>System Discovery</td></tr>
+          <tr><td>0x415A</td><td>Cell Monitor Basic Status</td></tr>
+          <tr><td>0x4232</td><td>Cell Monitor Full Info</td></tr>
+          <tr><td>0x3E32 / 0x3F33 / 0x4032</td><td>Telemetry Rapid / Fast / Slow</td></tr>
+          <tr><td>0x4732</td><td>Logic Control Status</td></tr>
+          <tr><td>0x4932</td><td>Remote Status</td></tr>
+          <tr><td>0x5432</td><td>Daily Session</td></tr>
+          <tr><td>0x6131 / 0x7857 / 0x5632</td><td>Communication Status / Shunt Metrics / Lifetime Metrics</td></tr>
+          <tr><td>0x4A35 / 0x4B35 / 0x4C33 / 0x4D33 / 0x5334</td><td>Hardware setup: system, cell group, shunt, expansion, integration</td></tr>
+          <tr><td>0x4F33 / 0x5033 / 0x5158 / 0x5258 / 0x4E58</td><td>Control-logic setup: critical, charge, discharge, thermal, remote</td></tr>
+        </tbody>
+      </table>
+      <ul class='sub'>
+        <li class='sub'><strong>Jan 2019</strong> - Started as batrium-udp-listener, renamed to batrium-udp2http-bridge in Dec 2019</li>
+        <li class='sub'><strong>Apr 2021</strong> - Prometheus metrics output added</li>
+        <li class='sub'><strong>Through Jan 2024</strong> - Dockerfile vulnerability fixes</li>
+      </ul>
+      <p>The source is on GitHub: <a href='https://github.com/liskl/batrium-udp2http-bridge'>github.com/liskl/batrium-udp2http-bridge</a>.</p>
 
       <div id="FAFOC">
         <div class="footerquote">
