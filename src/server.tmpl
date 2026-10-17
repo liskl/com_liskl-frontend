@@ -172,6 +172,54 @@
       <p>More photos, in order, in the <a href='/gallery/liskl-networks-datacenter.html'>datacenter gallery</a>.</p>
       </div>
 
+      <div id='forecast' style='display:none'>
+      <h2>Ormond Beach weather</h2>
+      <p>The lab rides out Florida weather on fiber plus a satellite uplink. Here is what Ormond Beach is up against next.</p>
+      <ul class='sub' id='forecast-periods'></ul>
+      <p><small>Source: <a href="https://www.weather.gov/">National Weather Service</a></small></p>
+      </div>
+      <script>
+        (function () {
+          var card = document.getElementById('forecast');
+          var list = document.getElementById('forecast-periods');
+          if (!card || !list || !window.fetch) { return; }
+          fetch('https://api.weather.gov/gridpoints/MLB/35,102/forecast', { headers: { 'Accept': 'application/geo+json' } })
+            .then(function (res) {
+              if (!res.ok) { throw new Error('NWS ' + res.status); }
+              return res.json();
+            })
+            .then(function (data) {
+              var periods = data && data.properties && data.properties.periods;
+              if (!Array.isArray(periods) || periods.length === 0) { throw new Error('unexpected NWS payload'); }
+              var items = periods.slice(0, 4).map(function (p) {
+                if (!p || typeof p.name !== 'string' || typeof p.temperature !== 'number' ||
+                    typeof p.temperatureUnit !== 'string' || typeof p.shortForecast !== 'string') {
+                  throw new Error('unexpected NWS period');
+                }
+                var li = document.createElement('li');
+                li.className = 'sub';
+                if (typeof p.icon === 'string' && p.icon.indexOf('https://api.weather.gov/') === 0) {
+                  var img = document.createElement('img');
+                  img.src = p.icon;
+                  img.width = 40;
+                  img.alt = p.shortForecast;
+                  img.style.marginRight = '8px';
+                  img.style.verticalAlign = 'middle';
+                  li.appendChild(img);
+                }
+                var name = document.createElement('strong');
+                name.textContent = p.name;
+                li.appendChild(name);
+                li.appendChild(document.createTextNode(' - ' + p.temperature + '°' + p.temperatureUnit + ', ' + p.shortForecast));
+                return li;
+              });
+              items.forEach(function (li) { list.appendChild(li); });
+              card.style.display = '';
+            })
+            .catch(function () { card.style.display = 'none'; });
+        })();
+      </script>
+
       <div id="FAFOC">
         <div class="footerquote">
           <p>"If I had more time, I would have made this shorter."</p><a href="/">Top Of Page</a>
