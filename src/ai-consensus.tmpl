@@ -1,0 +1,96 @@
+  <center>
+    <div class='card'>
+      <div class='header'>
+        <h1><a href='/' style='text-decoration:none;border:0'>Loren Lisk</a><a href='https://www.linkedin.com/in/liskl'><img src='/assets/img/linkedin-logo.png'
+              style='float:right;text-decoration:none;border:0;margin-left:5px;' /></a><a href='https://github.com/liskl'><img src='/assets/img/github-logo.png'
+              style='float:right;text-decoration:none;border:0;margin-left:5px;' /></a><a href='https://x.com/loren_lisk'><img src='/assets/img/x-logo.png'
+              style='float:right;text-decoration:none;border:0;margin-left:5px;' /></a></h1>
+        <p>One Agent Asks, Several Agents Agree</p>
+      </div>
+
+      <div class='homelab'>
+      <h2>AI Consensus Prototype <small>Dec 2025</small></h2>
+
+      <h2 id='what'>What it is</h2>
+      <p><strong>ai-consensus-poc</strong> is a prototype built in December 2025. A Go <em>brain</em> service takes a prompt, uses Claude to break it into subtasks, and fans those subtasks out to a pool of <em>child</em> Claude agents. The children are a single Kubernetes Deployment, so adding more is a matter of scaling its replicas. Each child sends its answer back to the brain, which reviews the results and either synthesizes a final answer or sends out refined questions for another round. It keeps iterating until the children reach consensus, capped at 10 iterations.</p>
+
+      <h2 id='consensus'>How consensus works</h2>
+      <p>The brain does not wait for every child. It waits for a <strong>quorum</strong>: a majority of the children it handed subtasks to that round must respond before it moves on. It then runs a 4-step analysis over the responses:</p>
+      <ol style='text-align:left'>
+        <li><strong>Identify claims</strong> - pull the key claims out of each child's response</li>
+        <li><strong>Compare agreement</strong> - check how far those claims line up across children</li>
+        <li><strong>Evaluate consensus strength</strong> - grade it as strong consensus, weak consensus or no consensus</li>
+        <li><strong>Decide the next step</strong> - synthesize the final answer, or write refined questions that target the disagreements and start another iteration</li>
+      </ol>
+
+      <h2 id='architecture'>Architecture</h2>
+<pre style='text-align:left;display:inline-block;font-size:12px;line-height:1.3;'>
+                  prompt
+                    |
+                    v
+       +-------------------------+
+       |          BRAIN          |&lt;-----------------------+
+       |  1. plan subtasks       |                        |
+       |  2. wait for quorum     |                        |
+       |  3. review: 4-step      |                        |
+       |     consensus analysis  |                        |
+       +------------+------------+                        |
+                    |  subtasks                           |
+      +-------------+-------------+-------------+         |
+      |             |             |             |         |
+      v             v             v             v         |
+ +---------+   +---------+   +---------+   +---------+    |
+ | child-1 |   | child-2 |   | child-3 |...| child-N |    |
+ +----+----+   +----+----+   +----+----+   +----+----+    |
+      |             |             |             |         |
+      +-------------+------+------+-------------+         |
+                           |                              |
+                           +---- results -----------------+
+
+        no consensus yet? refined questions go back out
+        (at most 10 iterations), otherwise final answer
+</pre>
+
+      <h2 id='stack'>Stack</h2>
+      <ul class='sub' style='text-align:left'>
+        <li class='sub'><strong>Go services</strong> - a <em>brain</em> orchestrator and a <em>child</em> agent service, calling Claude through the Anthropic Go SDK</li>
+        <li class='sub'><strong>Event bus</strong> - an internal bus that broadcasts messages, node and edge updates, task start and end, and iteration events</li>
+        <li class='sub'><strong>WebSocket hub</strong> - streams those events live to the dashboard</li>
+        <li class='sub'><strong>React dashboard</strong> - an IRC-style communication log next to a neural-network graph view of the brain and its children</li>
+        <li class='sub'><strong>Per-child model selection</strong> - click a child node in the graph to pick which Claude model it runs</li>
+        <li class='sub'><strong>Kubernetes</strong> - manifests for the brain, the child Deployment and the dashboard</li>
+        <li class='sub'><strong>SOPS</strong> - secrets kept encrypted in the repo</li>
+      </ul>
+
+      <h2 id='screenshots'>Screenshots</h2>
+      <p>One run of the sample prompt "What are three interesting facts about the moon?" against three children.</p>
+        <div class='row'>
+          <div class='col-sm-6'><figure>
+            <a class='img' href='/assets/img/ai-consensus/dashboard-idle.png'><img src='/assets/img/ai-consensus/dashboard-idle.png' width='1680' height='2040' loading='lazy' alt='Idle dashboard: an empty task prompt, the neural-network graph with the brain and three idle child nodes, and a communication log showing only the WebSocket connection.' /></a>
+            <figcaption>Idle: the brain and three children registered, waiting for a task.</figcaption>
+          </figure></div>
+          <div class='col-sm-6'><figure>
+            <a class='img' href='/assets/img/ai-consensus/dashboard-processing.png'><img src='/assets/img/ai-consensus/dashboard-processing.png' width='1680' height='2040' loading='lazy' alt='Dashboard while processing: the brain has split the moon question into three subtasks, one per child, and all three child nodes glow green in the graph.' /></a>
+            <figcaption>Processing: the brain plans subtasks and hands one to each child.</figcaption>
+          </figure></div>
+          <div class='col-sm-6'><figure>
+            <a class='img' href='/assets/img/ai-consensus/dashboard-iteration.png'><img src='/assets/img/ai-consensus/dashboard-iteration.png' width='1680' height='2040' loading='lazy' alt='Second iteration: the brain logs that the children covered different aspects with too little overlap, starts iteration 2 and sends each child a refined question.' /></a>
+            <figcaption>Iteration 2: the answers did not overlap enough to count as consensus, so the brain sends out refined questions.</figcaption>
+          </figure></div>
+          <div class='col-sm-6'><figure>
+            <a class='img' href='/assets/img/ai-consensus/dashboard-completed.png'><img src='/assets/img/ai-consensus/dashboard-completed.png' width='1680' height='2040' loading='lazy' alt='Later in the run: the children back to idle and a long child answer on the formation of the moon in the log, while the task panel shows a polling timeout.' /></a>
+            <figcaption>Late in the run: children idle again, long answers in the log, and the task panel's own poll timed out first. It is a prototype.</figcaption>
+          </figure></div>
+        </div>
+
+      <h2 id='source'>Source</h2>
+      <p>The code, manifests and setup notes are on GitHub: <a href='https://github.com/liskl/ai-consensus-poc'>github.com/liskl/ai-consensus-poc</a>.</p>
+      </div>
+
+      <div id="FAFOC">
+        <div class="footerquote">
+          <p>"If I had more time, I would have made this shorter."</p><a href="/">Top Of Page</a>
+        </div>
+      </div>
+    </div>
+  </center>

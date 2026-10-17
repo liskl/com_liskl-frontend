@@ -23,3 +23,5 @@ cat header.tmpl storage-inventory.tmpl footer.tmpl > ../site/storage-inventory.h
 cat header.tmpl claude-marketplace.tmpl footer.tmpl > ../site/claude-marketplace.html
 
 cat header.tmpl shard.tmpl footer.tmpl > ../site/shard.html
+
+cat header.tmpl ai-consensus.tmpl footer.tmpl > ../site/ai-consensus.html
