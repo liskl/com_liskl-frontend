@@ -25,3 +25,5 @@ cat header.tmpl claude-marketplace.tmpl footer.tmpl > ../site/claude-marketplace
 cat header.tmpl shard.tmpl footer.tmpl > ../site/shard.html
 
 cat header.tmpl ai-consensus.tmpl footer.tmpl > ../site/ai-consensus.html
+
+cat header.tmpl mousemind.tmpl footer.tmpl > ../site/mousemind.html

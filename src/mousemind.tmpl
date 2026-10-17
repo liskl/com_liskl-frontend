@@ -1,0 +1,35 @@
+  <center>
+    <div class='card'>
+      <div class='header'>
+        <h1><a href='/' style='text-decoration:none;border:0'>Loren Lisk</a><a href='https://www.linkedin.com/in/liskl'><img src='/assets/img/linkedin-logo.png'
+              style='float:right;text-decoration:none;border:0;margin-left:5px;' /></a><a href='https://github.com/liskl'><img src='/assets/img/github-logo.png'
+              style='float:right;text-decoration:none;border:0;margin-left:5px;' /></a><a href='https://x.com/loren_lisk'><img src='/assets/img/x-logo.png'
+              style='float:right;text-decoration:none;border:0;margin-left:5px;' /></a></h1>
+        <p>One small mouse, one cage, and a simulation engine to keep it busy</p>
+      </div>
+
+      <h2>MouseMind: a mouse in a cage, simulated</h2>
+      <p><strong>Status:</strong> prototype (Feb 2026). The source lives in a private repository, so there is no link or code here, just a short write-up.</p>
+
+      <h3>What it is</h3>
+      <p>MouseMind is a browser simulation of a mouse in a cage. Homeostatic drives (hunger, thirst, energy and sleep need) push its behaviour: it heads for food when it is hungry, water when it is thirsty, and sleep when it is tired. A day-night activity cycle shapes when it is active, and pause and speed controls let you watch it go about its day.</p>
+
+      <h3>How it is built</h3>
+      <p>The simulation engine is written in Go and streams its state to the browser over WebSockets. The frontend uses Svelte 5 for the UI and PixiJS 8 for rendering. The engine is fully decoupled from the renderer, so it also runs headless, which is how it gets tested.</p>
+<pre>
++---------------------+   WebSocket   +----------------------+
+|  Go engine          | ------------> |  Svelte 5 UI         |
+|  (headless-capable) |     state     |  + PixiJS 8 renderer |
++---------------------+               +----------------------+
+</pre>
+
+      <h3>Approach</h3>
+      <p>It was built spec-first: the specs were written before the code, and the implementation follows them.</p>
+
+      <div id="FAFOC">
+        <div class="footerquote">
+          <p>"If I had more time, I would have made this shorter."</p><a href="/">Top Of Page</a>
+        </div>
+      </div>
+    </div>
+  </center>
