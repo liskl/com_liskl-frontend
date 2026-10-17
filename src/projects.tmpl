@@ -1,0 +1,39 @@
+  <center>
+    <div class='card'>
+      <div class='header'>
+        <h1><a href='/' style='text-decoration:none;border:0'>Loren Lisk</a><a href='https://www.linkedin.com/in/liskl'><img src='/assets/img/linkedin-logo.png'
+              style='float:right;text-decoration:none;border:0;margin-left:5px;' /></a><a href='https://github.com/liskl'><img src='/assets/img/github-logo.png'
+              style='float:right;text-decoration:none;border:0;margin-left:5px;' /></a><a href='https://x.com/loren_lisk'><img src='/assets/img/x-logo.png'
+              style='float:right;text-decoration:none;border:0;margin-left:5px;' /></a></h1>
+        <p>Mostly scratching my own itch</p>
+      </div>
+
+      <h2>Small tools I've built</h2>
+
+      <h3>kind-local-test-suite</h3>
+      <p>A one-command local Kubernetes test bed: a multi-node <a href='https://kind.sigs.k8s.io/'>kind</a> cluster whose Flux components are managed by the Flux Operator, with secrets kept SOPS-encrypted in git. It's for trying out GitOps changes locally, then recreating the cluster from scratch when it gets messy. This one lives in a private repo.</p>
+      <p><small>2025 &middot; Shell</small></p>
+
+      <h3><a href='https://github.com/liskl/pre-commit-kustomize'>pre-commit-kustomize</a></h3>
+      <p>A <a href='https://pre-commit.com/'>pre-commit</a> hook that runs <code>kustomize build</code> inside a container running as a non-root user, so a broken overlay fails before it gets committed. github.com is added to the image's known_hosts, which lets overlays use remote refs. It started from an existing open-source kustomize image, and also bundles the KSOPS plugin for overlays that carry SOPS-encrypted secrets.</p>
+      <pre>repos:
+- repo: https://github.com/liskl/pre-commit-kustomize
+  rev: v0.0.7
+  hooks:
+  - id: kustomize
+    args: [path/to/your/overlay]</pre>
+      <p><small>2023 &middot; Dockerfile</small></p>
+
+      <h3><a href='https://github.com/liskl/whoami'>whoami</a></h3>
+      <p>A tiny Go demo app that answers HTTP requests with the pod's hostname and serves Prometheus metrics on <code>/metrics</code>. Scale it to a few replicas, hit it a few times, and you can see whether load balancing is actually spreading the traffic.</p>
+      <p><small>2022 &middot; Go</small></p>
+
+      <p>Most of what I build now runs on the homelab cluster; see the <a href="/server.html">homelab page</a>.</p>
+
+      <div id="FAFOC">
+        <div class="footerquote">
+          <p>"If I had more time, I would have made this shorter."</p><a href="/">Top Of Page</a>
+        </div>
+      </div>
+    </div>
+  </center>
