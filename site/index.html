@@ -153,6 +153,24 @@
             </ul>
           </li>
           <li>
+            <strong>Feb 2026</strong>
+            <ul class='sub'>
+              <li class='sub'>Built a Kubernetes-native orchestrator for running a pool of Claude Code agents on the homelab cluster, as a private personal project. It is made of a Go orchestrator, Go worker pods, and a React/TypeScript dashboard. Workers register with the orchestrator over gRPC with SPIFFE/SPIRE mTLS and send heartbeats. Conversations stick to the worker that started them, so context carries over. Responses stream to the browser over WebSockets, and each agent runs in its own managed tmux session. Voice input goes through a self-hosted Whisper speech-to-text service (no cloud), and KEDA scales the worker pool on task queue depth. Planned next: FIDO2/WebAuthn hardware-key login and leader election for an HA orchestrator.</li>
+              <li class='sub'>Key Focus Areas:
+                <ul class='sub'>
+                  <li class='sub'>Go</li>
+                  <li class='sub'>gRPC/protobuf (buf)</li>
+                  <li class='sub'>SPIFFE/SPIRE mTLS</li>
+                  <li class='sub'>WebSockets</li>
+                  <li class='sub'>React/TypeScript</li>
+                  <li class='sub'>Kubernetes</li>
+                  <li class='sub'>KEDA</li>
+                  <li class='sub'>Whisper speech-to-text</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li>
             <strong>2025</strong>
             <ul class='sub'>
               <li class='sub'>Technologies &amp; Tools:
