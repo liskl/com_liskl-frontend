@@ -1,0 +1,88 @@
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" /><!-- Bootstrap CSS -->
+  <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous" type="text/css" /> -->
+  <link rel="stylesheet" href="/assets/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous" type="text/css" />
+  <title>Loren Lisk, linux sysadmin, nano game developer and web developer - The Official Web Site</title>
+  <link rel='openid2.provider' href='https://www.google.com/accounts/o8/ud?source=profiles' />
+  <link rel='openid2.local_id' href='http://www.google.com/profiles/loren.lisk09' />
+  <link rel='shortcut icon' href='/favicon.ico' />
+  <link rel='stylesheet' href='/assets/css/main.css' media='screen' type="text/css" />
+  <link rel='stylesheet' href='/assets/css/recommend.css' media='screen' type="text/css" />
+  <link rel='stylesheet' href='/assets/css/print.css' media='print' type="text/css" />
+  <script data-ad-client="ca-pub-3132001591962373" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+</head>
+
+<body>
+  <center>
+    <div class='card'>
+      <div class='header'>
+        <h1><a href='/' style='text-decoration:none;border:0'>Loren Lisk</a><a href='https://www.linkedin.com/in/liskl'><img src='/assets/img/linkedin-logo.png'
+              style='float:right;text-decoration:none;border:0;margin-left:5px;' /></a><a href='https://github.com/liskl'><img src='/assets/img/github-logo.png'
+              style='float:right;text-decoration:none;border:0;margin-left:5px;' /></a><a href='https://x.com/loren_lisk'><img src='/assets/img/x-logo.png'
+              style='float:right;text-decoration:none;border:0;margin-left:5px;' /></a></h1>
+        <p>A Data Platform on a Homelab</p>
+      </div>
+
+      <h2>plex-db-analyzer: a data platform on a homelab</h2>
+      <p>A personal side project, built and run on the <a href='/server.html'>homelab</a> cluster. The code is private, so this page covers how it is put together rather than how to run it.</p>
+
+      <h2 id='what'>What it is <small>2026</small></h2>
+      <p>plex-db-analyzer ingests Plex Media Server database backups (the <code>.zip</code> the server writes) and charts what is in them: codecs, storage, watch history, bandwidth and library growth, all on a D3 dashboard.</p>
+
+      <h2 id='services'>From monolith to services</h2>
+      <p>It started life as a monolith: Node.js, Express and SQLite in one process. It was rewritten as eight Go services and a static dashboard, each doing one job:</p>
+      <ul>
+        <li><strong>ingest</strong> - accepts the uploaded backup, unpacks it and publishes the slices the other services need</li>
+        <li><strong>content</strong>, <strong>storage</strong>, <strong>codecs</strong>, <strong>watch</strong>, <strong>bandwidth</strong> and <strong>people</strong> - the domain services, each answering questions about one part of the data</li>
+        <li><strong>overview-aggregator</strong> - pulls the domain APIs together into a single summary</li>
+        <li><strong>dashboard</strong> - the D3 front end, served by nginx</li>
+      </ul>
+      <p>They run on Knative Serving, and Knative Eventing fans each uploaded backup out to the domain services through a dedicated broker and per-service triggers. The design follows a strict API-first rule: each domain service owns its own database and its own API, no service reads another's tables, and there are no internal-only interfaces. Every API is built to be exposed as-is.</p>
+
+      <div class='d-flex flex-wrap justify-content-center align-items-center my-3' role='img' aria-label='Data flow: backup upload, to ingest, to event fan-out, to per-service databases, to the overview aggregator, to the dashboard'>
+        <span class='border rounded px-2 py-1 m-1'>Backup upload (.zip)</span><span class='m-1' aria-hidden='true'>&rarr;</span>
+        <span class='border rounded px-2 py-1 m-1'>ingest</span><span class='m-1' aria-hidden='true'>&rarr;</span>
+        <span class='border rounded px-2 py-1 m-1'>Event fan-out<br /><small>Knative Eventing</small></span><span class='m-1' aria-hidden='true'>&rarr;</span>
+        <span class='border rounded px-2 py-1 m-1'>Per-service DBs<br /><small>content, storage, codecs, watch, bandwidth, people</small></span><span class='m-1' aria-hidden='true'>&rarr;</span>
+        <span class='border rounded px-2 py-1 m-1'>overview-aggregator</span><span class='m-1' aria-hidden='true'>&rarr;</span>
+        <span class='border rounded px-2 py-1 m-1'>dashboard</span>
+      </div>
+
+      <h2 id='data'>Data</h2>
+      <p>Postgres runs under CloudNativePG as a highly available cluster, with one instance required per node, on the TrueNAS iSCSI storage described in <a href='/server.html#today'>what the homelab runs on today</a>. Each service that holds data gets its own database and role on that cluster, and grants keep them apart.</p>
+      <p>In Aug 2026 the backup story grew up:</p>
+      <ul>
+        <li>barman point-in-time recovery replaced the nightly <code>pg_dump</code>, so a restore can land on a chosen moment rather than last night</li>
+        <li>the workload-identity tokens that authorize those backups are now published whenever they rotate, instead of on a fixed timer</li>
+        <li>WAL retention for replication slots is capped, so a stalled slot cannot hold on to WAL indefinitely</li>
+      </ul>
+
+      <h2 id='observability'>Observability <small>May 2026</small></h2>
+      <p>The services are instrumented with OpenTelemetry, and ingest exports its own pipeline metrics to a Grafana dashboard, so an import can be followed from upload onward.</p>
+
+      <div id="FAFOC">
+        <div class="footerquote">
+          <p>"If I had more time, I would have made this shorter."</p><a href="/">Top Of Page</a>
+        </div>
+      </div>
+    </div>
+  </center>
+
+  <br />
+
+  <div id="fade" class="black_overlay"></div><!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous" type="text/javascript"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous" type="text/javascript"></script>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous" type="text/javascript"></script> -->
+  <!--
+      <script src="/assets/js/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+      <script src="/assets/js/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    -->
+  <script src="/assets/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous" type="text/javascript"></script>
+</body>
+
+</html>
