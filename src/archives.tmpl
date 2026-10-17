@@ -1,0 +1,64 @@
+  <center>
+    <div class='card'>
+      <div class='header'>
+        <h1><a href='/' style='text-decoration:none;border:0'>Loren Lisk</a><a href='https://www.linkedin.com/in/liskl'><img src='/assets/img/linkedin-logo.png'
+              style='float:right;text-decoration:none;border:0;margin-left:5px;' /></a><a href='https://github.com/liskl'><img src='/assets/img/github-logo.png'
+              style='float:right;text-decoration:none;border:0;margin-left:5px;' /></a><a href='https://x.com/loren_lisk'><img src='/assets/img/x-logo.png'
+              style='float:right;text-decoration:none;border:0;margin-left:5px;' /></a></h1>
+        <p>Old Commits, Kept for the Record</p>
+      </div>
+
+      <h2>From the archives</h2>
+      <p>A few of the oldest public repos on my GitHub, from 2016 to 2020. Some shipped, some are a README and good intentions. They are listed newest first, so the honesty improves as you scroll down.</p>
+
+      <ul>
+        <li>
+          <strong>Aug 2020</strong>
+          <ul class='sub'>
+            <li class='sub'><a href='https://github.com/liskl/sops-action'>sops-action</a> - a GitHub Action for decrypting SOPS secrets in CI. Started, never finished: the repo is a README and a license.</li>
+          </ul>
+        </li>
+        <li>
+          <strong>Dec 2019</strong>
+          <ul class='sub'>
+            <li class='sub'><a href='https://github.com/liskl/blog-service'>blog-service</a> - a REST blog API in Go 1.13, written to learn Go. Routing with gorilla/mux, GORM on MySQL or Postgres, JWT login and bcrypt-hashed passwords.</li>
+            <li class='sub'>Controller and model tests read their database settings from environment variables, and a multi-stage Dockerfile builds it into a small Alpine image.</li>
+          </ul>
+        </li>
+        <li>
+          <strong>2017</strong>
+          <ul class='sub'>
+            <li class='sub'><a href='https://github.com/liskl/etcd-armv7l'>etcd-armv7l</a> - etcd 3.2 built for a Raspberry Pi 3 (armv7l), packaged as a <code>FROM scratch</code> image with <code>ETCD_UNSUPPORTED_ARCH=arm</code> set, since etcd did not officially support ARM.</li>
+            <li class='sub'>A single-node run, trimmed from the README:
+<pre style='text-align:left'>docker run --rm --net=host liskl/etcd-armv7l:v3.2.0 \
+    --data-dir /etcd-data \
+    --listen-client-urls http://0.0.0.0:2379 \
+    --advertise-client-urls http://0.0.0.0:2379</pre>
+            </li>
+            <li class='sub'>Later ARM experiments, ODROIDs this time, turn up on the <a href='/server.html'>homelab page</a>.</li>
+          </ul>
+        </li>
+        <li>
+          <strong>2016</strong>
+          <ul class='sub'>
+            <li class='sub'><a href='https://github.com/liskl/docker-library_'>docker-library_</a> - the Liskl Networks Docker Library, a monorepo holding Alpine base, Python Flask and Mosca (MQTT broker) images, built and tested on CircleCI.</li>
+            <li class='sub'>A small helper script wraps <code>git subtree</code> so each image can be pushed back out to its own repo.</li>
+          </ul>
+        </li>
+        <li>
+          <strong>Sep 2016</strong>
+          <ul class='sub'>
+            <li class='sub'><a href='https://github.com/liskl/docker-mosca'>docker-mosca</a> - a Node.js MQTT 3.1 broker image on my own base image. The README is the whole repo; the actual image lives in the library above.</li>
+            <li class='sub'><a href='https://github.com/liskl/docker-flask'>docker-flask</a> - an Alpine base image for Flask apps. Same story: a README-only stub, with the real Dockerfile in the library.</li>
+            <li class='sub'><a href='https://github.com/liskl/docker-base'>docker-base</a> - an early Alpine 3.2 base-image build config, and one of my first container repos.</li>
+          </ul>
+        </li>
+      </ul>
+
+      <div id="FAFOC">
+        <div class="footerquote">
+          <p>"If I had more time, I would have made this shorter."</p><a href="/">Top Of Page</a>
+        </div>
+      </div>
+    </div>
+  </center>
